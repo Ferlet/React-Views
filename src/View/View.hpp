@@ -24,6 +24,7 @@ namespace ReactViews {
 
 		void setId(const std::string &id);
 		View &findViewById(const std::string &id);
+		bool isAvailableId(const std::string &id);
 
 		void setFlex(const double &flex);
 		void setFlexAsParent(const double &flex);
@@ -45,6 +46,12 @@ namespace ReactViews {
 
 		bool hasParent() const { return _parent != nullptr; };
 		bool isDefault() const { return _isDefault; };
+
+		bool isLinkedToDom() const {
+			if (_parent == nullptr && _isMaster == false)
+				return false;
+			return (_isMaster || _parent->isLinkedToDom());
+		}
 
 	private:
 

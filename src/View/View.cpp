@@ -13,6 +13,9 @@ namespace ReactViews {
 		_parent = nullptr;
 
 		_id = std::string("");
+
+		if (!DOM.isInit() && DOM.hasAutoSet())
+			DOM.setMainView(this);
 	}
 
 	View::View(const double &flex) {
@@ -24,11 +27,21 @@ namespace ReactViews {
 		_parent = nullptr;
 
 		_id = std::string("");
+
+		if (!DOM.isInit() && DOM.hasAutoSet())
+			DOM.setMainView(this);
 	}
 
 	void View::setId(const std::string &id) {
-		DOM.findViewById(id);
-		_id = id;
+		if (id == "")
+			throw std::invalid_argument("Empty strings aren't valid");
+		if (!isLinkedToDom())
+			throw std::domain_error("Views must be linked to the Dom to be assigned an Id");
+		if (isAvailableId(id)) {
+			_id = id;
+			return ;
+		}
+		throw std::domain_error("Id must be unique");
 	}
 
 	View &View::findViewById(const std::string &id) {
@@ -44,6 +57,20 @@ namespace ReactViews {
 		}
 
 		throw std::invalid_argument("Id not found");
+	}
+
+	bool View::isAvailableId(const std::string &id) {
+		if (id == "")
+			throw std::invalid_argument("Empty strings aren't valid");
+
+		if (id == getId())
+			return false;
+		for (View &v : getChilds()) {
+			if (v.isAvailableId(id) == false)
+				return false;
+		}
+
+		return true;
 	}
 
 	void View::setFlex(const double &flex) {

@@ -2,12 +2,19 @@
 
 int main() {
 
+	DOM.disableAutoSet();
+	
 	ReactViews::View mainView = ReactViews::View();
+	
+	DOM.setMainView(&mainView);
+
 	ReactViews::View v1 = ReactViews::View();
 	ReactViews::View v2 = ReactViews::View();
 	ReactViews::View v3 = ReactViews::View();
 	ReactViews::View v4 = ReactViews::View();
 	ReactViews::View v5 = ReactViews::View();
+
+	mainView.setId("main");
 
 	mainView.addChild(v1);
 	v1.addChild(v4);
@@ -18,8 +25,6 @@ int main() {
 	mainView.setFlex(0.2);
 	v2.setFlex(0.3);
 	v3.setFlex(0.3);
-
-	DOM.setMainView(&mainView);
 
 	std::cout << mainView << std::endl;
 
