@@ -157,7 +157,8 @@ namespace ReactViews {
 	}
 
 	void View::reevaluateChildPos() {
-
+		if (!isLinkedToDom())
+			return ;
 	}
 
 
