@@ -8,7 +8,7 @@ CPPFLAGS	+=	-I./src/Dom -I./src/View
 
 RM	=	rm -f
 
-SRCS	=	src/test.cpp
+SRCS	=	src/demo.cpp
 SRCS	+=	src/View/View.cpp
 SRCS	+=	src/Dom/Dom.cpp
 
