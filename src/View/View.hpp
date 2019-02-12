@@ -47,6 +47,7 @@ namespace ReactViews {
 		void reevaluateChildFlex(double globalRowFlex, double globalColumFlex, double globalTopRatio, double globalLeftRatio);
 
 		void reevaluateZone();
+		void setBackgroundColor(sf::Color color);
 
 		void render();
 

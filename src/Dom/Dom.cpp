@@ -42,4 +42,9 @@ namespace ReactViews {
 
 		return rect;
 	}
+
+	void Dom::render() {
+		if (_view && _window)
+			_view->render();
+	}
 }

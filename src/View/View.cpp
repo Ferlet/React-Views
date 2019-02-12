@@ -22,6 +22,8 @@ namespace ReactViews {
 
 		_isMaster = false;
 
+		setBackgroundColor(sf::Color::Transparent);
+
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
 	}
@@ -43,6 +45,8 @@ namespace ReactViews {
 		_id = std::string("");
 
 		_isMaster = false;
+
+		setBackgroundColor(sf::Color::Transparent);
 
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
@@ -208,8 +212,24 @@ namespace ReactViews {
 	}
 
 	void View::reevaluateZone() {
-		if (isLinkedToDom() && DOM.hasWindow())
+		if (isLinkedToDom() && DOM.hasWindow()) {
+			sf::Color color = _background.getFillColor();
+
 			_background = DOM.getLocalZone(*this);
+			_background.setFillColor(color);
+		}
+	}
+
+	void View::setBackgroundColor(sf::Color color) {
+		_background.setFillColor(color);
+	}
+
+	void View::render() {
+		if (DOM.hasWindow() && DOM.isInit()) {
+			DOM.getWindow()->draw(_background);
+			for (View &v : _childs)
+				v.render();
+		}
 	}
 
 	void View::setParent(View &view) {
@@ -231,8 +251,10 @@ void printView(std::ostream &stream, const ReactViews::View &view, const unsigne
 	}
 	stream << "global: {top: " << view.getGlobalTopRatio() << ", left: " << view.getGlobalLeftRatio() << "} | ";
 	stream << "size: {vertical: " << view.getGlobalColumnFlex() << ", horizontal: " << view.getGlobalRowFlex() << "}";
-	if (view.isLinkedToDom() && DOM.hasWindow())
-		stream << "\t-> Rect(pos = {" << view.getZone().getPosition().x << ", " << view.getZone().getPosition().y << "}, size = {" << view.getZone().getSize().x << ", " << view.getZone().getSize().y << "})";
+	if (view.isLinkedToDom() && DOM.hasWindow()) {
+		stream << "\t-> Rect(pos = {" << view.getZone().getPosition().x << ", " << view.getZone().getPosition().y << "}, size = {" << view.getZone().getSize().x << ", " << view.getZone().getSize().y << "}";
+		stream << ", color: " << (int)view.getZone().getFillColor().r << ", " << (int)view.getZone().getFillColor().g << ", " << (int)view.getZone().getFillColor().b << ")";
+	}
 
 	for (ReactViews::View &v : view.getChilds()) {
 		stream << "\n";
