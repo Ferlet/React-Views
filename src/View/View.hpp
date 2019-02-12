@@ -33,8 +33,10 @@ namespace ReactViews {
 		void setFlexDirection(const FlexDirection &dir);
 
 		void setStartFlexAsParent(const double &startFlex);
-		void setTopFlexAsParent(const double &topFlex);
-		void setLeftFlexAsParent(const double &leftFlex);
+		void setGlobalRowFlexAsParent(const double &globalRowFlex);
+		void setGlobalColumnFlexAsParent(const double &globalColumFlex);
+		void setGlobalTopRatioAsParent(const double &globalTopRatio);
+		void setGlobalLeftRatioAsParent(const double &globalLeftRatio);
 
 		void setMaster();
 		void unsetMaster();
@@ -42,7 +44,9 @@ namespace ReactViews {
 		void addChild(View &view);
 		void addChild(View &view, const unsigned int &idx);
 
-		void reevaluateChildFlex(double topFlex, double leftFlex);
+		void reevaluateChildFlex(double globalRowFlex, double globalColumFlex, double globalTopRatio, double globalLeftRatio);
+
+		void setBackground(sf::RectangleShape rect);
 
 		void render();
 
@@ -50,8 +54,10 @@ namespace ReactViews {
 		double getFlex() const { return _flex; };
 		double getLiteralFlex() const { return _literalFlex; };
 		double getStartFlex() const { return _startFlex; };
-		double getTopFlex() const { return _topFlex; };
-		double getLeftFlex() const { return _leftFlex; };
+		double getGlobalRowFlex() const { return _globalRowFlex; };
+		double getGlobalColumnFlex() const { return _globalColumnFlex; };
+		double getGlobalTopRatio() const { return _globalTopRatio; };
+		double getGlobalLeftRatio() const { return _globalLeftRatio; };
 		std::vector<std::reference_wrapper<View>> getChilds() const { return _childs; };
 
 		bool hasParent() const { return _parent != nullptr; };
@@ -75,13 +81,17 @@ namespace ReactViews {
 		bool _isDefault;
 
 		double _startFlex;
-		double _topFlex;
-		double _leftFlex;
+		double _globalRowFlex;
+		double _globalColumnFlex;
+		double _globalTopRatio;
+		double _globalLeftRatio;
 
 		View *_parent;
 		std::vector<std::reference_wrapper<View>> _childs;
 
 		bool _isMaster;
+
+		sf::RectangleShape _background; //implement this
 	};
 
 }

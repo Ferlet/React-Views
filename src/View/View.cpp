@@ -11,8 +11,10 @@ namespace ReactViews {
 		_direction = ROW;
 
 		_startFlex = 0;
-		_topFlex = 0;
-		_leftFlex = 0;
+		_globalRowFlex = 1;
+		_globalColumnFlex = 1;
+		_globalTopRatio = 0;
+		_globalLeftRatio = 0;
 
 		_parent = nullptr;
 
@@ -31,8 +33,10 @@ namespace ReactViews {
 		_direction = ROW;
 
 		_startFlex = 0;
-		_topFlex = 0;
-		_leftFlex = 0;
+		_globalRowFlex = 1;
+		_globalColumnFlex = 1;
+		_globalTopRatio = 0;
+		_globalLeftRatio = 0;
 
 		_parent = nullptr;
 
@@ -94,7 +98,7 @@ namespace ReactViews {
 			return ;
 		if (_parent != nullptr) {
 			std::cout << "reevaluating" << std::endl;
-			_parent->reevaluateChildFlex(_parent->getTopFlex(), _parent->getLeftFlex());
+			_parent->reevaluateChildFlex(_parent->getGlobalRowFlex(), _parent->getGlobalColumnFlex(), _parent->getGlobalTopRatio(), _parent->getGlobalLeftRatio());
 		}
 		else if (_isMaster)
 			_flex = 1;
@@ -106,19 +110,27 @@ namespace ReactViews {
 
 	void View::setFlexDirection(const FlexDirection &dir) {
 		_direction = dir;
-		reevaluateChildFlex(_topFlex, _leftFlex);
+		reevaluateChildFlex(_globalRowFlex, _globalColumnFlex, _globalTopRatio, _globalLeftRatio);
 	}
 
 	void View::setStartFlexAsParent(const double &startFlex) {
 		_startFlex = startFlex;
 	}
 
-	void View::setTopFlexAsParent(const double &topFlex) {
-		_topFlex = topFlex;
+	void View::setGlobalRowFlexAsParent(const double &globalRowFlex) {
+		_globalRowFlex = globalRowFlex;
 	}
 
-	void View::setLeftFlexAsParent(const double &leftFlex) {
-		_leftFlex = leftFlex;
+	void View::setGlobalColumnFlexAsParent(const double &globalColumnFlex) {
+		_globalColumnFlex = globalColumnFlex;
+	}
+
+	void View::setGlobalTopRatioAsParent(const double &globalTopRatio) {
+		_globalTopRatio = globalTopRatio;
+	}
+
+	void View::setGlobalLeftRatioAsParent(const double &globalLeftRatio) {
+		_globalLeftRatio = globalLeftRatio;
 	}
 
 	void View::setMaster() {
@@ -132,16 +144,16 @@ namespace ReactViews {
 	void View::addChild(View &view) {
 		view.setParent(*this);
 		_childs.push_back(view);
-		reevaluateChildFlex(_topFlex, _leftFlex);
+		reevaluateChildFlex(_globalRowFlex, _globalColumnFlex, _globalTopRatio, _globalLeftRatio);
 	}
 
 	void View::addChild(View &view, const unsigned int &idx) {
 		view.setParent(*this);
 		_childs.insert(_childs.begin() + idx, view);
-		reevaluateChildFlex(_topFlex, _leftFlex);
+		reevaluateChildFlex(_globalRowFlex, _globalColumnFlex, _globalTopRatio, _globalLeftRatio);
 	}
 
-	void View::reevaluateChildFlex(double topFlex, double leftFlex) {
+	void View::reevaluateChildFlex(double globalRowFlex, double globalColumnFlex, double globalTopRatio, double globalLeftRatio) {
 		double totalFlex = 0;
 		double roundedFlex = 0;
 		double remainingFlex = 0;
@@ -151,8 +163,11 @@ namespace ReactViews {
 
 		double currentStartFlex = 0;
 
-		if (_isMaster)
+		if (_isMaster) {
 			setFlex(1);
+			_globalColumnFlex = 1;
+			_globalRowFlex = 1;
+		}
 
 		for (View &v : _childs) {
 			if (v.isDefault())
@@ -177,14 +192,25 @@ namespace ReactViews {
 			else {
 				ratio = v.getLiteralFlex() / roundedFlex;
 			}
-			v.setTopFlexAsParent(topFlex);
-			v.setLeftFlexAsParent(leftFlex);
+			v.setGlobalTopRatioAsParent(globalTopRatio);
+			v.setGlobalLeftRatioAsParent(globalLeftRatio);
 			v.setFlexAsParent(ratio);
 			v.setStartFlexAsParent(currentStartFlex);
 			currentStartFlex += ratio;
-			topFlex += ratio * (_direction == COLUMN);
-			leftFlex += ratio * (_direction == ROW);
+			globalTopRatio += ratio * (_direction == COLUMN) * globalColumnFlex;
+			globalLeftRatio += ratio * (_direction == ROW) * globalRowFlex;
+			
+			v.setGlobalRowFlexAsParent((_direction == ROW ? ratio * globalRowFlex : globalRowFlex));
+			v.setGlobalColumnFlexAsParent((_direction == COLUMN ? ratio * globalColumnFlex : globalColumnFlex));
+			v.reevaluateChildFlex(v.getGlobalRowFlex(), v.getGlobalColumnFlex(), v.getGlobalTopRatio(), v.getGlobalLeftRatio());
+
+			//if (v.isLinkedToDom() && DOM.hasWindow())
+			//v.setBackground(DOM.getLocalZone(v));
 		}
+	}
+
+	void View::setBackground(sf::RectangleShape rect) {
+		_background = rect;
 	}
 
 	void View::setParent(View &view) {
@@ -204,8 +230,9 @@ void printView(std::ostream &stream, const ReactViews::View &view, const unsigne
 	for (unsigned int i = 0; i < floor; i++) {
 		stream << "\t";
 	}
-	stream << "global: {top: " << view.getTopFlex() << ", left: " << view.getLeftFlex() << "} | ";
-	stream << "local: {start: " << view.getStartFlex() << ", size: " << view.getFlex() << "}";
+	stream << "global: {top: " << view.getGlobalTopRatio() << ", left: " << view.getGlobalLeftRatio() << "} | ";
+	stream << "size: {vertical: " << view.getGlobalColumnFlex() << ", horizontal: " << view.getGlobalRowFlex() << "}";
+	//stream << "local: {start: " << view.getStartFlex() << ", size: " << view.getFlex() << "}";
 	for (ReactViews::View &v : view.getChilds()) {
 		stream << "\n";
 		printView(stream, v, floor + 1);

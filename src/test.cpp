@@ -13,12 +13,18 @@ int main() {
 	ReactViews::View v3 = ReactViews::View();
 	ReactViews::View v4 = ReactViews::View();
 	ReactViews::View v5 = ReactViews::View();
+	ReactViews::View v6 = ReactViews::View();
+	ReactViews::View v7 = ReactViews::View();
 
 	mainView.setId("main");
 
 	mainView.addChild(v1);
 	v1.addChild(v4);
 	v1.addChild(v5);
+
+	v5.addChild(v6);
+	v5.addChild(v7);	
+
 	v1.setFlexDirection(ReactViews::COLUMN);
 
 	mainView.addChild(v2);

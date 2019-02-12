@@ -11,7 +11,7 @@ namespace ReactViews {
 			unsetMainView();
 		_view = std::addressof(view);
 		_view->setMaster();
-		_view->reevaluateChildFlex(0, 0);
+		_view->reevaluateChildFlex(1, 1, 0, 0);
 	}
 
 	void Dom::unsetMainView() {
@@ -26,4 +26,9 @@ namespace ReactViews {
 			_view->findViewById(id);
 		throw std::domain_error("No view is linked to the Dom yet");
 	}
+
+	/*sf::RectangleShape Dom::getLocalZone(const View &view) {
+		sf::Vector2u v = _window->getSize();
+		sf::RectangleShape rect()
+	}*/
 }
