@@ -4,7 +4,7 @@
 namespace ReactViews {
 
 	void Dom::setMainView(View *view) {
-		if (view.hasParent())
+		if (view->hasParent())
 			throw std::domain_error("Main View must be the first node of its tree");
 
 		if (_view)

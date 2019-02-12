@@ -22,15 +22,22 @@ namespace ReactViews {
 		bool isInit() const { return _view != nullptr; };
 		bool hasAutoSet() const { return _autoSet; };
 
+		bool hasWindow() const { return _window != nullptr; };
+		sf::RenderWindow *getWindow() const { return _window; };
+
 		View &findViewById(const std::string &id);
 
+		sf::RectangleShape getLocalZone(const View *view);
+
+		void render();
+
 	private:
-		Dom() { _view = nullptr; _autoSet = true; };	
+		Dom() { _view = nullptr; _autoSet = true; _window = nullptr; };
 		Dom(Dom const&);
 		void operator=(Dom const&);
 
 		View *_view;
-		//window here
+		sf::RenderWindow *_window;
 		bool _autoSet;
 	};
 

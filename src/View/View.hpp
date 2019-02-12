@@ -9,6 +9,8 @@
 #include <stdexcept>
 #include <math.h>
 
+#include <SFML/Graphics.hpp>
+
 namespace ReactViews {
 
 	typedef enum {
@@ -30,6 +32,8 @@ namespace ReactViews {
 		void setFlexAsParent(const double &flex);
 		void setFlexDirection(const FlexDirection &dir);
 
+		void setStartFlexAsParent(const double &startFlex);
+
 		void setMaster();
 		void unsetMaster();
 
@@ -39,9 +43,12 @@ namespace ReactViews {
 		void reevaluateChildFlex();
 		void reevaluateChildPos();
 
+		void render();
+
 		std::string getId() const { return _id; };
 		double getFlex() const { return _flex; };
 		double getLiteralFlex() const { return _literalFlex; };
+		double getStartFlex() const { return _startFlex; };
 		std::vector<std::reference_wrapper<View>> getChilds() const { return _childs; };
 
 		bool hasParent() const { return _parent != nullptr; };
@@ -63,6 +70,8 @@ namespace ReactViews {
 		double _literalFlex;
 		FlexDirection _direction;
 		bool _isDefault;
+
+		double _startFlex;
 
 		View *_parent;
 		std::vector<std::reference_wrapper<View>> _childs;

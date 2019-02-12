@@ -10,6 +10,8 @@ namespace ReactViews {
 		_isDefault = true;
 		_direction = ROW;
 
+		_startFlex = 0;
+
 		_parent = nullptr;
 
 		_id = std::string("");
@@ -23,6 +25,8 @@ namespace ReactViews {
 		_literalFlex = flex;
 		_isDefault = false;
 		_direction = ROW;
+
+		_startFlex = 0;
 
 		_parent = nullptr;
 
@@ -97,6 +101,10 @@ namespace ReactViews {
 		reevaluateChildPos();
 	}
 
+	void View::setStartFlexAsParent(const double &startFlex) {
+		_startFlex = startFlex;
+	}
+
 	void View::setMaster() {
 		_isMaster = true;
 	}
@@ -125,6 +133,8 @@ namespace ReactViews {
 		double fractPart;
 		double nbOfDefault = 0;
 
+		double currentStartFlex = 0;
+
 		if (_isMaster)
 			setFlex(1);
 
@@ -152,6 +162,8 @@ namespace ReactViews {
 				ratio = v.getLiteralFlex() / roundedFlex;
 			}
 			v.setFlexAsParent(ratio);
+			v.setStartFlexAsParent(currentStartFlex);
+			currentStartFlex += ratio;
 		}
 		reevaluateChildPos();
 	}
@@ -179,7 +191,7 @@ void printView(std::ostream &stream, const ReactViews::View &view, const unsigne
 	for (unsigned int i = 0; i < floor; i++) {
 		stream << "\t";
 	}
-	stream << view.getFlex();
+	stream << "{start: " << view.getStartFlex() << ", size: " << view.getFlex() << "}";
 	for (ReactViews::View &v : view.getChilds()) {
 		stream << "\n";
 		printView(stream, v, floor + 1);

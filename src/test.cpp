@@ -26,7 +26,9 @@ int main() {
 	v2.setFlex(0.3);
 	v3.setFlex(0.3);
 
+	std::cout << "\n";
 	std::cout << mainView << std::endl;
+	std::cout << "\n";
 
 	return 0;
 }
