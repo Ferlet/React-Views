@@ -19,6 +19,8 @@ int main() {
 	mainView.addChild(v1);
 	v1.addChild(v4);
 	v1.addChild(v5);
+	v1.setFlexDirection(ReactViews::COLUMN);
+
 	mainView.addChild(v2);
 	mainView.addChild(v3);
 

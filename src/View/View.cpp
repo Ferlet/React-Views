@@ -11,6 +11,8 @@ namespace ReactViews {
 		_direction = ROW;
 
 		_startFlex = 0;
+		_topFlex = 0;
+		_leftFlex = 0;
 
 		_parent = nullptr;
 
@@ -29,6 +31,8 @@ namespace ReactViews {
 		_direction = ROW;
 
 		_startFlex = 0;
+		_topFlex = 0;
+		_leftFlex = 0;
 
 		_parent = nullptr;
 
@@ -90,7 +94,7 @@ namespace ReactViews {
 			return ;
 		if (_parent != nullptr) {
 			std::cout << "reevaluating" << std::endl;
-			_parent->reevaluateChildFlex();
+			_parent->reevaluateChildFlex(_parent->getTopFlex(), _parent->getLeftFlex());
 		}
 		else if (_isMaster)
 			_flex = 1;
@@ -102,11 +106,19 @@ namespace ReactViews {
 
 	void View::setFlexDirection(const FlexDirection &dir) {
 		_direction = dir;
-		reevaluateChildPos();
+		reevaluateChildFlex(_topFlex, _leftFlex);
 	}
 
 	void View::setStartFlexAsParent(const double &startFlex) {
 		_startFlex = startFlex;
+	}
+
+	void View::setTopFlexAsParent(const double &topFlex) {
+		_topFlex = topFlex;
+	}
+
+	void View::setLeftFlexAsParent(const double &leftFlex) {
+		_leftFlex = leftFlex;
 	}
 
 	void View::setMaster() {
@@ -120,16 +132,16 @@ namespace ReactViews {
 	void View::addChild(View &view) {
 		view.setParent(*this);
 		_childs.push_back(view);
-		reevaluateChildFlex();
+		reevaluateChildFlex(_topFlex, _leftFlex);
 	}
 
 	void View::addChild(View &view, const unsigned int &idx) {
 		view.setParent(*this);
 		_childs.insert(_childs.begin() + idx, view);
-		reevaluateChildFlex();
+		reevaluateChildFlex(_topFlex, _leftFlex);
 	}
 
-	void View::reevaluateChildFlex() {
+	void View::reevaluateChildFlex(double topFlex, double leftFlex) {
 		double totalFlex = 0;
 		double roundedFlex = 0;
 		double remainingFlex = 0;
@@ -165,18 +177,15 @@ namespace ReactViews {
 			else {
 				ratio = v.getLiteralFlex() / roundedFlex;
 			}
+			v.setTopFlexAsParent(topFlex);
+			v.setLeftFlexAsParent(leftFlex);
 			v.setFlexAsParent(ratio);
 			v.setStartFlexAsParent(currentStartFlex);
 			currentStartFlex += ratio;
+			topFlex += ratio * (_direction == COLUMN);
+			leftFlex += ratio * (_direction == ROW);
 		}
-		reevaluateChildPos();
 	}
-
-	void View::reevaluateChildPos() {
-		if (!isLinkedToDom())
-			return ;
-	}
-
 
 	void View::setParent(View &view) {
 		_parent = std::addressof(view);
@@ -195,7 +204,8 @@ void printView(std::ostream &stream, const ReactViews::View &view, const unsigne
 	for (unsigned int i = 0; i < floor; i++) {
 		stream << "\t";
 	}
-	stream << "{start: " << view.getStartFlex() << ", size: " << view.getFlex() << "}";
+	stream << "global: {top: " << view.getTopFlex() << ", left: " << view.getLeftFlex() << "} | ";
+	stream << "local: {start: " << view.getStartFlex() << ", size: " << view.getFlex() << "}";
 	for (ReactViews::View &v : view.getChilds()) {
 		stream << "\n";
 		printView(stream, v, floor + 1);

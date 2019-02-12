@@ -33,6 +33,8 @@ namespace ReactViews {
 		void setFlexDirection(const FlexDirection &dir);
 
 		void setStartFlexAsParent(const double &startFlex);
+		void setTopFlexAsParent(const double &topFlex);
+		void setLeftFlexAsParent(const double &leftFlex);
 
 		void setMaster();
 		void unsetMaster();
@@ -40,8 +42,7 @@ namespace ReactViews {
 		void addChild(View &view);
 		void addChild(View &view, const unsigned int &idx);
 
-		void reevaluateChildFlex();
-		void reevaluateChildPos();
+		void reevaluateChildFlex(double topFlex, double leftFlex);
 
 		void render();
 

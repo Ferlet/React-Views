@@ -11,7 +11,7 @@ namespace ReactViews {
 			unsetMainView();
 		_view = std::addressof(view);
 		_view->setMaster();
-		_view->reevaluateChildFlex();
+		_view->reevaluateChildFlex(0, 0);
 	}
 
 	void Dom::unsetMainView() {
