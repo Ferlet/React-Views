@@ -6,7 +6,7 @@ int main() {
 	
 	ReactViews::View mainView = ReactViews::View();
 	
-	DOM.setMainView(&mainView);
+	DOM.setMainView(mainView);
 
 	ReactViews::View v1 = ReactViews::View();
 	ReactViews::View v2 = ReactViews::View();

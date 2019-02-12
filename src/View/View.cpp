@@ -16,8 +16,10 @@ namespace ReactViews {
 
 		_id = std::string("");
 
+		_isMaster = false;
+
 		if (!DOM.isInit() && DOM.hasAutoSet())
-			DOM.setMainView(this);
+			DOM.setMainView(*this);
 	}
 
 	View::View(const double &flex) {
@@ -32,8 +34,10 @@ namespace ReactViews {
 
 		_id = std::string("");
 
+		_isMaster = false;
+
 		if (!DOM.isInit() && DOM.hasAutoSet())
-			DOM.setMainView(this);
+			DOM.setMainView(*this);
 	}
 
 	void View::setId(const std::string &id) {
@@ -114,13 +118,13 @@ namespace ReactViews {
 	}
 
 	void View::addChild(View &view) {
-		view.setParent(this);
+		view.setParent(*this);
 		_childs.push_back(view);
 		reevaluateChildFlex();
 	}
 
 	void View::addChild(View &view, const unsigned int &idx) {
-		view.setParent(this);
+		view.setParent(*this);
 		_childs.insert(_childs.begin() + idx, view);
 		reevaluateChildFlex();
 	}
@@ -174,8 +178,8 @@ namespace ReactViews {
 	}
 
 
-	void View::setParent(View *view) {
-		_parent = view;
+	void View::setParent(View &view) {
+		_parent = std::addressof(view);
 	}
 
 }

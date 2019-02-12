@@ -49,6 +49,8 @@ namespace ReactViews {
 		double getFlex() const { return _flex; };
 		double getLiteralFlex() const { return _literalFlex; };
 		double getStartFlex() const { return _startFlex; };
+		double getTopFlex() const { return _topFlex; };
+		double getLeftFlex() const { return _leftFlex; };
 		std::vector<std::reference_wrapper<View>> getChilds() const { return _childs; };
 
 		bool hasParent() const { return _parent != nullptr; };
@@ -62,7 +64,7 @@ namespace ReactViews {
 
 	private:
 
-		void setParent(View *view);
+		void setParent(View &view);
 
 		std::string _id;
 
@@ -72,6 +74,8 @@ namespace ReactViews {
 		bool _isDefault;
 
 		double _startFlex;
+		double _topFlex;
+		double _leftFlex;
 
 		View *_parent;
 		std::vector<std::reference_wrapper<View>> _childs;

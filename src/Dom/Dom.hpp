@@ -16,7 +16,7 @@ namespace ReactViews {
 		void enableAutoSet() { _autoSet = true; };
 		void disableAutoSet() { _autoSet = false; };
 
-		void setMainView(View *view);
+		void setMainView(View &view);
 		void unsetMainView();
 
 		bool isInit() const { return _view != nullptr; };
@@ -27,7 +27,7 @@ namespace ReactViews {
 
 		View &findViewById(const std::string &id);
 
-		sf::RectangleShape getLocalZone(const View *view);
+		sf::RectangleShape getLocalZone(const View &view);
 
 		void render();
 
