@@ -23,6 +23,8 @@ namespace ReactViews {
 
 	void Dom::setWindow(sf::RenderWindow &window) {
 		_window = std::addressof(window);
+		if (isInit())
+			_view->reevaluateChildFlex(1, 1, 0, 0);
 	}
 
 	View &Dom::findViewById(const std::string &id) {
@@ -35,8 +37,8 @@ namespace ReactViews {
 		sf::Vector2u v = _window->getSize();
 
 		sf::RectangleShape rect(sf::Vector2f(v.x * view.getGlobalRowFlex(), v.y * view.getGlobalColumnFlex()));
-
-		rect.setPosition(view.getGlobalLeftRatio(), view.getGlobalTopRatio());
+ 
+		rect.setPosition(v.x * view.getGlobalLeftRatio(), v.y * view.getGlobalTopRatio());
 
 		return rect;
 	}

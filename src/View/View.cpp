@@ -231,6 +231,8 @@ void printView(std::ostream &stream, const ReactViews::View &view, const unsigne
 	}
 	stream << "global: {top: " << view.getGlobalTopRatio() << ", left: " << view.getGlobalLeftRatio() << "} | ";
 	stream << "size: {vertical: " << view.getGlobalColumnFlex() << ", horizontal: " << view.getGlobalRowFlex() << "}";
+	if (view.isLinkedToDom() && DOM.hasWindow())
+		stream << "\t-> Rect(pos = {" << view.getZone().getPosition().x << ", " << view.getZone().getPosition().y << "}, size = {" << view.getZone().getSize().x << ", " << view.getZone().getSize().y << "})";
 
 	for (ReactViews::View &v : view.getChilds()) {
 		stream << "\n";

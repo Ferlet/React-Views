@@ -59,6 +59,7 @@ namespace ReactViews {
 		double getGlobalTopRatio() const { return _globalTopRatio; };
 		double getGlobalLeftRatio() const { return _globalLeftRatio; };
 		std::vector<std::reference_wrapper<View>> getChilds() const { return _childs; };
+		sf::RectangleShape getZone() const { return _background; };
 
 		bool hasParent() const { return _parent != nullptr; };
 		bool isDefault() const { return _isDefault; };
