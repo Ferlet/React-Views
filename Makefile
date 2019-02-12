@@ -1,16 +1,16 @@
 
 PP	=	g++
 
-NAME	=	debug
+NAME	=	demo
 
 CPPFLAGS	=	-W -Wall -Werror -Wextra -std=c++11 -lsfml-graphics -lsfml-system -lsfml-window
-CPPFLAGS	+=	-I./Dom -I./View
+CPPFLAGS	+=	-I./src/Dom -I./src/View
 
 RM	=	rm -f
 
-SRCS	=	test.cpp
-SRCS	+=	View/View.cpp
-SRCS	+=	Dom/Dom.cpp
+SRCS	=	src/test.cpp
+SRCS	+=	src/View/View.cpp
+SRCS	+=	src/Dom/Dom.cpp
 
 OBJS	=	$(SRCS:.cpp=.o)
 
