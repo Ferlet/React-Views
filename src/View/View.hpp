@@ -46,7 +46,7 @@ namespace ReactViews {
 
 		void reevaluateChildFlex(double globalRowFlex, double globalColumFlex, double globalTopRatio, double globalLeftRatio);
 
-		void setBackground(sf::RectangleShape rect);
+		void reevaluateZone();
 
 		void render();
 
@@ -91,7 +91,7 @@ namespace ReactViews {
 
 		bool _isMaster;
 
-		sf::RectangleShape _background; //implement this
+		sf::RectangleShape _background;
 	};
 
 }

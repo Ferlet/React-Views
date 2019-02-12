@@ -19,6 +19,8 @@ namespace ReactViews {
 		void setMainView(View &view);
 		void unsetMainView();
 
+		void setWindow(sf::RenderWindow &window);
+
 		bool isInit() const { return _view != nullptr; };
 		bool hasAutoSet() const { return _autoSet; };
 

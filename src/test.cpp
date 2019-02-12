@@ -2,6 +2,10 @@
 
 int main() {
 
+	sf::RenderWindow window(sf::VideoMode(800, 600), "window");
+	window.setVisible(false);
+	DOM.setWindow(window);
+
 	DOM.disableAutoSet();
 	
 	ReactViews::View mainView = ReactViews::View();
@@ -36,6 +40,7 @@ int main() {
 
 	std::cout << "\n";
 	std::cout << mainView << std::endl;
+	std::cout << "\n";
 	std::cout << "\n";
 
 	return 0;

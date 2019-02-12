@@ -21,14 +21,23 @@ namespace ReactViews {
 		_view = nullptr;
 	}
 
+	void Dom::setWindow(sf::RenderWindow &window) {
+		_window = std::addressof(window);
+	}
+
 	View &Dom::findViewById(const std::string &id) {
 		if (_view)
 			_view->findViewById(id);
 		throw std::domain_error("No view is linked to the Dom yet");
 	}
 
-	/*sf::RectangleShape Dom::getLocalZone(const View &view) {
+	sf::RectangleShape Dom::getLocalZone(const View &view) {
 		sf::Vector2u v = _window->getSize();
-		sf::RectangleShape rect()
-	}*/
+
+		sf::RectangleShape rect(sf::Vector2f(v.x * view.getGlobalRowFlex(), v.y * view.getGlobalColumnFlex()));
+
+		rect.setPosition(view.getGlobalLeftRatio(), view.getGlobalTopRatio());
+
+		return rect;
+	}
 }

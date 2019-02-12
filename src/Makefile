@@ -3,7 +3,7 @@ PP	=	g++
 
 NAME	=	debug
 
-CPPFLAGS	=	-W -Wall -Werror -Wextra -std=c++11 -lsfml-graphics
+CPPFLAGS	=	-W -Wall -Werror -Wextra -std=c++11 -lsfml-graphics -lsfml-system -lsfml-window
 CPPFLAGS	+=	-I./Dom -I./View
 
 RM	=	rm -f
