@@ -31,12 +31,16 @@ namespace ReactViews {
 
 		sf::RectangleShape getLocalZone(const View &view);
 
+		void checkEvents();
+
 		void render();
 
 	private:
 		Dom() { _view = nullptr; _autoSet = true; _window = nullptr; };
 		Dom(Dom const&);
 		void operator=(Dom const&);
+
+		void applyToViewTree(View &view, std::function<void(View &)>);
 
 		View *_view;
 		sf::RenderWindow *_window;

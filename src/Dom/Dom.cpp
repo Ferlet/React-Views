@@ -43,8 +43,26 @@ namespace ReactViews {
 		return rect;
 	}
 
+	void Dom::checkEvents() {
+		if (!_view || !_window)
+			throw std::domain_error("Both main View and a window must be set before using events");
+
+		sf::Event event;
+
+		_window->pollEvent(event);
+
+		applyToViewTree(*_view, [&event](View &v){ v.checkEvents(event); });
+	}
+
 	void Dom::render() {
 		if (_view && _window)
 			_view->render();
+	}
+
+	void Dom::applyToViewTree(View &view, std::function<void(View &)> func) {
+		func(view);
+		for (View &v : view.getChilds()) {
+			applyToViewTree(v, func);
+		}
 	}
 }

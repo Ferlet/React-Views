@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <map>
 #include <iostream>
 #include <iomanip>
 #include <functional>
@@ -24,33 +25,44 @@ namespace ReactViews {
 		View(const double &flex);
 		~View() = default;
 
+		//ID management (can't be used without main View)
 		void setId(const std::string &id);
 		View &findViewById(const std::string &id);
 		bool isAvailableId(const std::string &id);
 
+		//Pure flexbox
 		void setFlex(const double &flex);
 		void setFlexAsParent(const double &flex);
 		void setFlexDirection(const FlexDirection &dir);
 
+		//Global Size and Position
 		void setStartFlexAsParent(const double &startFlex);
 		void setGlobalRowFlexAsParent(const double &globalRowFlex);
 		void setGlobalColumnFlexAsParent(const double &globalColumFlex);
 		void setGlobalTopRatioAsParent(const double &globalTopRatio);
 		void setGlobalLeftRatioAsParent(const double &globalLeftRatio);
 
+		//Master and Childs (DOM Tree)
 		void setMaster();
 		void unsetMaster();
-
 		void addChild(View &view);
 		void addChild(View &view, const unsigned int &idx);
 
+		//Flex algorithm
 		void reevaluateChildFlex(double globalRowFlex, double globalColumFlex, double globalTopRatio, double globalLeftRatio);
-
 		void reevaluateZone();
+
+		//Style
 		void setBackgroundColor(sf::Color color);
 
+		//Events
+		void setOnPress(std::function<void(View &)> func);
+		void checkEvents(sf::Event &event);
+
+		//Render
 		void render();
 
+		//Getters
 		std::string getId() const { return _id; };
 		double getFlex() const { return _flex; };
 		double getLiteralFlex() const { return _literalFlex; };
@@ -61,10 +73,9 @@ namespace ReactViews {
 		double getGlobalLeftRatio() const { return _globalLeftRatio; };
 		std::vector<std::reference_wrapper<View>> getChilds() const { return _childs; };
 		sf::RectangleShape getZone() const { return _background; };
-
+		sf::Color getBackgroundColor() const { return _background.getFillColor(); };
 		bool hasParent() const { return _parent != nullptr; };
 		bool isDefault() const { return _isDefault; };
-
 		bool isLinkedToDom() const {
 			if (_parent == nullptr && _isMaster == false)
 				return false;
@@ -94,6 +105,8 @@ namespace ReactViews {
 		bool _isMaster;
 
 		sf::RectangleShape _background;
+
+		std::map<std::string, std::function<void(View &)>> _eventMap;
 	};
 
 }

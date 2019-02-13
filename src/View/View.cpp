@@ -224,6 +224,23 @@ namespace ReactViews {
 		_background.setFillColor(color);
 	}
 
+	void View::setOnPress(std::function<void(View &)> func) {
+		_eventMap["onPress"] = func;
+	}
+
+	void View::checkEvents(sf::Event &event) {
+		if (!DOM.isInit() || !DOM.hasWindow())
+			return ;
+
+		sf::Vector2i badPos(event.mouseButton.x, event.mouseButton.y);
+		sf::Vector2f mousePos = DOM.getWindow()->mapPixelToCoords(badPos, DOM.getWindow()->getView());
+
+		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
+			if (_background.getGlobalBounds().contains(mousePos.x, mousePos.y))
+				if (_eventMap.find("onPress") != _eventMap.end()) _eventMap["onPress"](*this);
+		}
+	}
+
 	void View::render() {
 		if (DOM.hasWindow() && DOM.isInit()) {
 			DOM.getWindow()->draw(_background);

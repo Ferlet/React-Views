@@ -56,11 +56,20 @@ int main() {
 	v2.setBackgroundColor(sf::Color::White);
 	v3.setBackgroundColor(sf::Color::Magenta);
 
+	//Defining events
+	v4.setOnPress([](ReactViews::View &view){
+		if (view.getBackgroundColor() != sf::Color::Transparent)
+			view.setBackgroundColor(sf::Color::Transparent);
+		else
+			view.setBackgroundColor(sf::Color::Green);
+	});
+
 	//Display
 	while (window.isOpen() && !closing(window)) {
 		window.clear();
 		DOM.render();
 		window.display();
+		DOM.checkEvents();
 	}
 
 	return 0;
