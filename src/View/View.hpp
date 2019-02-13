@@ -62,6 +62,7 @@ namespace ReactViews {
 		void checkEvents(sf::Event &event);
 
 		//Render
+		void draw(sf::Drawable *drawable);
 		void render();
 
 		//Getters

@@ -213,10 +213,10 @@ namespace ReactViews {
 
 	void View::reevaluateZone() {
 		if (isLinkedToDom() && DOM.hasWindow()) {
-			sf::Color color = _background.getFillColor();
+			sf::Color color = getBackgroundColor();
 
 			_background = DOM.getLocalZone(*this);
-			_background.setFillColor(color);
+			setBackgroundColor(color);
 		}
 	}
 
@@ -249,6 +249,13 @@ namespace ReactViews {
 			if (event.mouseButton.button == sf::Mouse::Right)
 				if (_eventMap.find("onRightClick") != _eventMap.end()) _eventMap["onRightClick"](*this);
 		}
+	}
+
+	void View::draw(sf::Drawable *drawable) {
+		if (dynamic_cast<sf::Transformable *>(drawable))
+			std::cout << "DERIVED" << std::endl;
+		else
+			std::cout << "NOT DERIVED" << std::endl;
 	}
 
 	void View::render() {
