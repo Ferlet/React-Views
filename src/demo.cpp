@@ -29,8 +29,6 @@ int main() {
 	ReactViews::View v6;
 	ReactViews::View v7;
 
-	mainView.setId("main");
-
 	//Tree building
 	mainView.addChild(v1);
 	{
@@ -57,12 +55,11 @@ int main() {
 	v3.setBackgroundColor(sf::Color::Magenta);
 
 	//Defining events
-	v4.setOnPress([](ReactViews::View &view){
-		if (view.getBackgroundColor() != sf::Color::Transparent)
-			view.setBackgroundColor(sf::Color::Transparent);
-		else
-			view.setBackgroundColor(sf::Color::Green);
-	});
+	v4.setEvent("onLeftClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::Green : sf::Color::Transparent);});
+	v6.setEvent("onLeftClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::Red : sf::Color::Transparent);});
+	v7.setEvent("onLeftClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::Yellow : sf::Color::Transparent);});
+	v2.setEvent("onLeftClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::White : sf::Color::Transparent);});
+	v3.setEvent("onRightClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::Magenta : sf::Color::Transparent);});
 
 	//Display
 	while (window.isOpen() && !closing(window)) {

@@ -56,7 +56,9 @@ namespace ReactViews {
 		void setBackgroundColor(sf::Color color);
 
 		//Events
-		void setOnPress(std::function<void(View &)> func);
+		void setEvent(std::string key, std::function<void(View &)> func);
+		void setOnLeftClick(std::function<void(View &)> func);
+		void setOnRightClick(std::function<void(View &)> func);
 		void checkEvents(sf::Event &event);
 
 		//Render

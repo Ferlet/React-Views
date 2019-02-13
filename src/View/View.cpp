@@ -224,8 +224,16 @@ namespace ReactViews {
 		_background.setFillColor(color);
 	}
 
-	void View::setOnPress(std::function<void(View &)> func) {
-		_eventMap["onPress"] = func;
+	void View::setEvent(std::string key, std::function<void(View &)> func) {
+		_eventMap[key] = func;
+	}
+
+	void View::setOnLeftClick(std::function<void(View &)> func) {
+		_eventMap["onLeftClick"] = func;
+	}
+
+	void View::setOnRightClick(std::function<void(View &)> func) {
+		_eventMap["onRightClick"] = func;
 	}
 
 	void View::checkEvents(sf::Event &event) {
@@ -235,9 +243,11 @@ namespace ReactViews {
 		sf::Vector2i badPos(event.mouseButton.x, event.mouseButton.y);
 		sf::Vector2f mousePos = DOM.getWindow()->mapPixelToCoords(badPos, DOM.getWindow()->getView());
 
-		if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left) {
-			if (_background.getGlobalBounds().contains(mousePos.x, mousePos.y))
-				if (_eventMap.find("onPress") != _eventMap.end()) _eventMap["onPress"](*this);
+		if (event.type == sf::Event::MouseButtonPressed && _background.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+			if (event.mouseButton.button == sf::Mouse::Left)
+				if (_eventMap.find("onLeftClick") != _eventMap.end()) _eventMap["onLeftClick"](*this);
+			if (event.mouseButton.button == sf::Mouse::Right)
+				if (_eventMap.find("onRightClick") != _eventMap.end()) _eventMap["onRightClick"](*this);
 		}
 	}
 
