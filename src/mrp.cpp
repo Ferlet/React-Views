@@ -56,7 +56,6 @@ int main() {
 	ReactViews::View sep3_1;
 	ReactViews::View sep3_2;
 	ReactViews::View sepClearGame;
-	ReactViews::View clearColumn;
 	ReactViews::View clearButton;
 
 	//------------------------------------------
@@ -95,10 +94,7 @@ int main() {
 	mainView.addChild(clearGame);
 	{
 		clearGame.addChild(sepClearGame);
-		clearGame.addChild(clearColumn);
-		{
-			clearColumn.addChild(clearButton);
-		}
+		clearGame.addChild(clearButton);
 	}
 	//-----------------------------------------
 
@@ -119,7 +115,6 @@ int main() {
 	column1.setFlexDirection(ReactViews::COLUMN);
 	column3.setFlexDirection(ReactViews::COLUMN);
 	column5.setFlexDirection(ReactViews::COLUMN);
-	clearColumn.setFlexDirection(ReactViews::COLUMN);
 	game.setFlex(0.85);
 	column2.setFlex(0.05);
 	column4.setFlex(0.05);
@@ -130,8 +125,7 @@ int main() {
 	sep3_1.setFlex(0.05);
 	sep3_2.setFlex(0.05);
 	sepClearGame.setFlex(0.05);
-	clearColumn.setFlex(0.25);
-	clearButton.setFlex(1);
+	clearButton.setFlex(0.25);
 	//-----------------------------------------
 
 	//----------Defining some style------------
