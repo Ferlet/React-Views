@@ -15,33 +15,7 @@ bool closing(sf::RenderWindow &window) {
 	return false;
 }
 
-void eventFunction(bool &turn, ReactViews::View &view) {
-	if (view.getBackgroundColor() == sf::Color::Transparent) {
-		view.setBackgroundColor(turn == true ? sf::Color::Red : sf::Color::Green);
-		turn = !turn;
-	}
-}
-
-void displayTree(pugi::xml_node &node, int tabs = 0) {
-	for (pugi::xml_node_iterator it = node.begin(); it != node.end(); ++it) {
-		for (int i = 0; i < tabs; i++)
-			std::cout << "\t";
-		std::cout << it->name() << ": ";
-		for (pugi::xml_attribute_iterator ait = it->attributes_begin(); ait != it->attributes_end(); ++ait) {
-        	std::cout << " " << ait->name() << " = " << ait->value();
-    	}
-	    std::cout << std::endl;
-	    displayTree(*it, tabs + 1);
-	}
-}
-
 int main() {
-
-	DOM.parseFromFile("ressources/mrc.xml");
-
-	DOM.findViewById("column3");
-
-	//return 0;
 
 	bool turn = false;
 
@@ -49,7 +23,10 @@ int main() {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "window");
 	DOM.setWindow(window);
 	//------------------------------------------
-	
+
+	//---------------XML parsing----------------
+	DOM.parseFromFile("ressources/mrc.xml");
+	//------------------------------------------
 
 	//----------Defining some style------------
 	DOM.findViewById("column2").setBackgroundColor(sf::Color(150, 150, 150));
