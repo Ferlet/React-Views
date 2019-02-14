@@ -28,9 +28,9 @@ namespace ReactViews {
 	}
 
 	View &Dom::findViewById(const std::string &id) {
-		if (_view)
-			_view->findViewById(id);
-		throw std::domain_error("No view is linked to the Dom yet");
+		if (!_view)
+			throw std::domain_error("No view is linked to the Dom yet");
+		return _view->findViewById(id);
 	}
 
 	sf::RectangleShape Dom::getLocalZone(const View &view) {

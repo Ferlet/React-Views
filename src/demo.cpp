@@ -54,18 +54,27 @@ int main() {
 	v2.setBackgroundColor(sf::Color::White);
 	v3.setBackgroundColor(sf::Color::Magenta);
 
+	//Defining Renders
+	sf::Font font;
+	if (!font.loadFromFile("./ressources/arial.ttf"))
+		throw std::exception();
+	sf::Text text("Contenu tres interessant\n\nSFML: \"omae wa mo shindeiru\"\nAccents: \"NANI?\"", font, 20);
+	v6.setRenderFunction([&text](ReactViews::View &v){
+	 	v.draw(text);
+	});
+
 	//Defining events
 	v4.setEvent("onLeftClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::Green : sf::Color::Transparent);});
-	v6.setEvent("onLeftClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::Red : sf::Color::Transparent);});
 	v7.setEvent("onLeftClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::Yellow : sf::Color::Transparent);});
 	v2.setEvent("onLeftClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::White : sf::Color::Transparent);});
 	v3.setEvent("onRightClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::Magenta : sf::Color::Transparent);});
-
-	//Defining Renders
-	// v6.setRenderFunction([](ReactViews::View &v){
-	// 	sf::RectangleShape rect = v.getZone();
-	// 	v.draw(rect);
-	// });
+	v6.setEvent("onLeftClick", [&text](ReactViews::View &view){
+		(void)view;
+		if (text.getString().getSize() > 50)
+			text.setString("j'aime les frites\n\nsuch original, much wow");
+		else
+			text.setString("Contenu tres interessant\n\nSFML: \"omae wa mo shindeiru\"\nAccents: \"NANI?\"");
+	});
 
 	//Display
 	while (window.isOpen() && !closing(window)) {
