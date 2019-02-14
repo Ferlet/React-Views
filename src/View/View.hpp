@@ -24,6 +24,10 @@ namespace ReactViews {
 		View();
 		View(const double &flex);
 		~View() = default;
+		bool treeDelete();
+
+		//used by the Dom class
+		void mustBeCleaned() { _mustBeCleaned = true; };
 
 		//ID management (can't be used without main View)
 		void setId(const std::string &id);
@@ -89,6 +93,8 @@ namespace ReactViews {
 	private:
 
 		void setParent(View &view);
+
+		bool _mustBeCleaned;
 
 		std::string _id;
 

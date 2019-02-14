@@ -1,0 +1,32 @@
+<View id="mainView" flexDirection="column">
+	<View id="game" flex="0.85">
+		<View id="column1" flexDirection="column">
+			<View id="square 1-1"/>
+			<View id="sep 1-1" flex="0.05"/>
+			<View id="square 1-2"/>
+			<View id="sep 1-2" flex="0.05"/>
+			<View id="square 1-3"/>
+		</View>
+		<View id="column2" flex="0.05"/>
+		<View id="column3" flexDirection="column">
+			<View id="square 2-1"/>
+			<View id="sep 2-1" flex="0.05"/>
+			<View id="square 2-2"/>
+			<View id="sep 2-2" flex="0.05"/>
+			<View id="square 2-3"/>
+		</View>
+		<View id="column4" flex="0.05"/>
+		<View id="column5" flexDirection="column">
+			<View id="square 3-1"/>
+			<View id="sep 3-1" flex="0.05"/>
+			<View id="square 3-2"/>
+			<View id="sep 3-2" flex="0.05"/>
+			<View id="square 3-3"/>
+		</View>
+	</View>
+	<View id="mainSeparator"></View>
+	<View id="clearRow">
+		<View id="sepClearGame" flex="0.05"></View>
+		<View id="clearButton" flex="0.25"></View>
+	</View>
+</View>

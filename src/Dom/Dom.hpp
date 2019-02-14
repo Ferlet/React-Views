@@ -1,6 +1,7 @@
  
 #pragma once
 
+#include "pugixml.hpp"
 #include "View.hpp"
 
 namespace ReactViews {
@@ -35,14 +36,22 @@ namespace ReactViews {
 
 		void render();
 
+		void parseFromFile(const std::string &path);
+		void endParsingAndThrow(bool wasDisabled, std::exception except);
+		void evaluateDocument(pugi::xml_node &node, unsigned int level = 0, View *currentView = nullptr);
+
 	private:
-		Dom() { _view = nullptr; _autoSet = true; _window = nullptr; };
+		Dom() { _view = nullptr; _keeper = nullptr; _autoSet = true; _window = nullptr; };
 		Dom(Dom const&);
+		~Dom();
 		void operator=(Dom const&);
 
 		void applyToViewTree(View &view, std::function<void(View &)>);
 
+		unsigned int getXmlChildNumber(pugi::xml_node &node);
+
 		View *_view;
+		View *_keeper;
 		sf::RenderWindow *_window;
 		bool _autoSet;
 	};

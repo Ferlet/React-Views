@@ -5,6 +5,8 @@
 namespace ReactViews {
 
 	View::View() {
+		_mustBeCleaned = false;
+
 		_flex = 1;
 		_literalFlex = 1;
 		_isDefault = true;
@@ -29,6 +31,8 @@ namespace ReactViews {
 	}
 
 	View::View(const double &flex) {
+		_mustBeCleaned = false;
+
 		_flex = flex;
 		_literalFlex = flex;
 		_isDefault = false;
@@ -50,6 +54,16 @@ namespace ReactViews {
 
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
+	}
+
+	bool View::treeDelete() {
+		for (View &v : getChilds()) {
+			if (v.treeDelete())
+				delete(std::addressof(v));
+		}
+		if (_mustBeCleaned)
+			return true;
+		return false;
 	}
 
 	void View::setId(const std::string &id) {
@@ -76,7 +90,7 @@ namespace ReactViews {
 			} catch (...) {};
 		}
 
-		throw std::invalid_argument("Id not found");
+		throw std::invalid_argument(std::string("Id not found: ") + id);
 	}
 
 	bool View::isAvailableId(const std::string &id) {

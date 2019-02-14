@@ -4,13 +4,14 @@ PP	=	g++
 NAME	=	demo
 
 CPPFLAGS	=	-W -Wall -Werror -Wextra -std=c++11 -lsfml-graphics -lsfml-system -lsfml-window
-CPPFLAGS	+=	-I./src/Dom -I./src/View
+CPPFLAGS	+=	-I./src/Dom -I./src/View -I./src/xmlLib/
 
 RM	=	rm -f
 
 SRCS	=	src/mrp.cpp
 SRCS	+=	src/View/View.cpp
 SRCS	+=	src/Dom/Dom.cpp
+SRCS	+= 	src/xmlLib/pugixml.cpp
 
 OBJS	=	$(SRCS:.cpp=.o)
 
