@@ -1,8 +1,8 @@
  
 #pragma once
 
-#include "pugixml.hpp"
-#include "View.hpp"
+#include "../xmlLib/pugixml.hpp"
+#include "../View/View.hpp"
 
 namespace ReactViews {
 

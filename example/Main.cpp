@@ -25,7 +25,7 @@ int main() {
 	//------------------------------------------
 
 	//---------------XML parsing----------------
-	DOM.parseFromFile("ressources/mrc.xml");
+	DOM.parseFromFile("./ressources/mrc.xml");
 	//------------------------------------------
 
 	//----------Defining some style------------
@@ -75,7 +75,7 @@ int main() {
 		for (int i = 1; i < 4; i++) {
 			for (int j = 1; j < 4; j++) {
 				std::stringstream s;
-				s << "case " << i << "-" << j;
+				s << "square " << i << "-" << j;
 				DOM.findViewById(s.str()).setBackgroundColor(sf::Color::Transparent);
 			}
 		}
