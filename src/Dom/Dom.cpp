@@ -61,8 +61,6 @@ namespace ReactViews {
 
 	void Dom::parseFromFile(const std::string &path) {
 		bool wasDisabled = !_autoSet;
-		(void)wasDisabled;
-		(void)path;
 
 		if (_view) {
 			_keeper = _view;
@@ -96,8 +94,7 @@ namespace ReactViews {
 	}
 
 	void Dom::evaluateDocument(pugi::xml_node &node, unsigned int level, View *currentView) {
-		(void)currentView;
-
+		
 		if (level == 0 && getXmlChildNumber(node) > 1)
 			throw std::domain_error("XML elements must be enclosed in an enclosing tag");
 		for (pugi::xml_node_iterator it = node.begin(); it != node.end(); ++it) {
