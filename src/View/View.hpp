@@ -62,7 +62,8 @@ namespace ReactViews {
 		void checkEvents(sf::Event &event);
 
 		//Render
-		void draw(sf::Drawable *drawable);
+		void draw(sf::Drawable &drawable);
+		void setRenderFunction(std::function<void(View &)> func);
 		void render();
 
 		//Getters
@@ -110,6 +111,7 @@ namespace ReactViews {
 		sf::RectangleShape _background;
 
 		std::map<std::string, std::function<void(View &)>> _eventMap;
+		std::function<void(View &)> _renderFunction;
 	};
 
 }

@@ -61,6 +61,12 @@ int main() {
 	v2.setEvent("onLeftClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::White : sf::Color::Transparent);});
 	v3.setEvent("onRightClick", [](ReactViews::View &view){view.setBackgroundColor(view.getBackgroundColor() == sf::Color::Transparent ? sf::Color::Magenta : sf::Color::Transparent);});
 
+	//Defining Renders
+	// v6.setRenderFunction([](ReactViews::View &v){
+	// 	sf::RectangleShape rect = v.getZone();
+	// 	v.draw(rect);
+	// });
+
 	//Display
 	while (window.isOpen() && !closing(window)) {
 		window.clear();

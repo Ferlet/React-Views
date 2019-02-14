@@ -16,13 +16,13 @@ namespace ReactViews {
 		_globalTopRatio = 0;
 		_globalLeftRatio = 0;
 
-		_parent = nullptr;
-
 		_id = std::string("");
-
+		_parent = nullptr;
 		_isMaster = false;
 
 		setBackgroundColor(sf::Color::Transparent);
+
+		_renderFunction = [](View &v){(void)v;};
 
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
@@ -40,13 +40,13 @@ namespace ReactViews {
 		_globalTopRatio = 0;
 		_globalLeftRatio = 0;
 
-		_parent = nullptr;
-
 		_id = std::string("");
-
+		_parent = nullptr;
 		_isMaster = false;
 
 		setBackgroundColor(sf::Color::Transparent);
+
+		_renderFunction = [](View &v){(void)v;};
 
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
@@ -251,16 +251,25 @@ namespace ReactViews {
 		}
 	}
 
-	void View::draw(sf::Drawable *drawable) {
-		if (dynamic_cast<sf::Transformable *>(drawable))
-			std::cout << "DERIVED" << std::endl;
-		else
-			std::cout << "NOT DERIVED" << std::endl;
+	void View::draw(sf::Drawable &drawable) {
+		sf::Transformable *transformable = dynamic_cast<sf::Transformable *>(&drawable);
+
+		if (!transformable)
+			return ;
+		sf::Vector2f pos = _background.getPosition();
+
+		transformable->setPosition(pos);
+		DOM.getWindow()->draw(drawable);
+	}
+
+	void View::setRenderFunction(std::function<void(View &)> func) {
+		_renderFunction = func;
 	}
 
 	void View::render() {
 		if (DOM.hasWindow() && DOM.isInit()) {
 			DOM.getWindow()->draw(_background);
+			_renderFunction(*this);
 			for (View &v : _childs)
 				v.render();
 		}
