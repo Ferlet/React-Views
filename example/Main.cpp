@@ -17,6 +17,23 @@ bool closing(sf::RenderWindow &window) {
 
 int main() {
 
+	//--------------SFML stuff------------------
+	sf::Texture thinkingTexture;
+	sf::Texture okTexture;
+	thinkingTexture.loadFromFile("./ressources/thinking.png");
+	okTexture.loadFromFile("./ressources/ok_hand.png");
+
+	sf::Sprite thinkingSprite;
+	sf::Sprite okSprite;
+	thinkingSprite.setTexture(thinkingTexture);
+	okSprite.setTexture(okTexture);
+
+	sf::Font font;
+	if (!font.loadFromFile("./ressources/arial.ttf"))
+		throw std::exception();
+	sf::Text text("  Clear game", font, 30);
+	//------------------------------------------
+
 	bool turn = false;
 
 	//---------------Dom creation---------------
@@ -41,23 +58,19 @@ int main() {
 	//-----------------------------------------
 
 	//---------------Defining Renders----------
-	sf::Font font;
-	if (!font.loadFromFile("./ressources/arial.ttf"))
-		throw std::exception();
-	sf::Text text("  Clear game", font, 30);
-
-
 	DOM.findViewById("clearButton").setRenderFunction([&text](ReactViews::View &v){
 	 	v.draw(text);
 	});
 	//-----------------------------------------
 
 	//---------------Defining events-----------
-	std::function<void(ReactViews::View &)> squareFunc = [&turn](ReactViews::View &view){
-		if (view.getBackgroundColor() == sf::Color::Transparent) {
-			view.setBackgroundColor(turn == true ? sf::Color::Red : sf::Color::Green);
-			turn = !turn;
-		}
+	std::function<void(ReactViews::View &)> squareFunc = [&turn, &thinkingSprite, &okSprite](ReactViews::View &view){
+		if (view.hasRenderFunction())
+			return ;
+		if (turn) view.setRenderFunction([&thinkingSprite](ReactViews::View &v){v.draw(thinkingSprite);});
+		else view.setRenderFunction([&okSprite](ReactViews::View &v){v.draw(okSprite);});
+
+		turn = !turn;
 	};
 
 	DOM.findViewById("square 1-1").setEvent("onLeftClick", squareFunc);
@@ -76,7 +89,7 @@ int main() {
 			for (int j = 1; j < 4; j++) {
 				std::stringstream s;
 				s << "square " << i << "-" << j;
-				DOM.findViewById(s.str()).setBackgroundColor(sf::Color::Transparent);
+				DOM.findViewById(s.str()).clearRenderFunction();
 			}
 		}
 	});

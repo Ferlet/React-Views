@@ -25,6 +25,7 @@ namespace ReactViews {
 		setBackgroundColor(sf::Color::Transparent);
 
 		_renderFunction = [](View &v){(void)v;};
+		_hasRenderFunction = false;
 
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
@@ -51,6 +52,7 @@ namespace ReactViews {
 		setBackgroundColor(sf::Color::Transparent);
 
 		_renderFunction = [](View &v){(void)v;};
+		_hasRenderFunction = false;
 
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
@@ -267,17 +269,44 @@ namespace ReactViews {
 
 	void View::draw(sf::Drawable &drawable) {
 		sf::Transformable *transformable = dynamic_cast<sf::Transformable *>(&drawable);
+		sf::Shape *shape = dynamic_cast<sf::Shape *>(&drawable);
+		sf::Sprite *sprite = dynamic_cast<sf::Sprite *>(&drawable);
 
-		if (!transformable)
-			return ;
-		sf::Vector2f pos = _background.getPosition();
+		if (transformable) {
+			sf::Vector2f pos = _background.getPosition();
+			transformable->setPosition(pos);
+		}
 
-		transformable->setPosition(pos);
+		sf::FloatRect mustFit = _background.getGlobalBounds();
+		sf::FloatRect rect;
+		if (shape || sprite) {
+			float factorX = 1;
+			float factorY = 1;
+			if (shape) rect = shape->getGlobalBounds();
+			else rect = sprite->getGlobalBounds();
+			if (rect.width > mustFit.width)
+				factorX = mustFit.width / rect.width;
+			if (rect.height > mustFit.height)
+				factorY = mustFit.height / rect.height;
+			factorX = factorY < factorX ? factorY : factorX;
+			factorY = factorX < factorY ? factorX : factorY;
+			if (factorX < 1 && factorY < 1) {
+				if (shape) shape->setScale(factorX, factorY);
+				else {sprite->setScale(factorX, factorY);};
+			}
+		}
+
 		DOM.getWindow()->draw(drawable);
 	}
 
 	void View::setRenderFunction(std::function<void(View &)> func) {
-		_renderFunction = func;
+		_renderFunction = std::move(func);
+		_hasRenderFunction = true;
+	}
+
+	void View::clearRenderFunction() {
+		_renderFunction = std::move([](View &v){(void)v;});
+		_hasRenderFunction = false;
 	}
 
 	void View::render() {

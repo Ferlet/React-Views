@@ -68,6 +68,7 @@ namespace ReactViews {
 		//Render
 		void draw(sf::Drawable &drawable);
 		void setRenderFunction(std::function<void(View &)> func);
+		void clearRenderFunction();
 		void render();
 
 		//Getters
@@ -84,6 +85,7 @@ namespace ReactViews {
 		sf::Color getBackgroundColor() const { return _background.getFillColor(); };
 		bool hasParent() const { return _parent != nullptr; };
 		bool isDefault() const { return _isDefault; };
+		bool hasRenderFunction() const { return _hasRenderFunction; };
 		bool isLinkedToDom() const {
 			if (_parent == nullptr && _isMaster == false)
 				return false;
@@ -118,6 +120,7 @@ namespace ReactViews {
 
 		std::map<std::string, std::function<void(View &)>> _eventMap;
 		std::function<void(View &)> _renderFunction;
+		bool _hasRenderFunction;
 	};
 
 }

@@ -24,7 +24,7 @@
 			<View id="square 3-3"/>
 		</View>
 	</View>
-	<View id="mainSeparator"></View>
+	<View id="mainSeparator"/>
 	<View id="clearRow">
 		<View id="sepClearGame" flex="0.05"/>
 		<View id="clearButton" flex="0.25"/>
