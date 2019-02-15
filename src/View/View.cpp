@@ -26,33 +26,7 @@ namespace ReactViews {
 
 		_renderFunction = [](View &v){(void)v;};
 		_hasRenderFunction = false;
-
-		if (!DOM.isInit() && DOM.hasAutoSet())
-			DOM.setMainView(*this);
-	}
-
-	View::View(const double &flex) {
-		_mustBeCleaned = false;
-
-		_flex = flex;
-		_literalFlex = flex;
-		_isDefault = false;
-		_direction = ROW;
-
-		_startFlex = 0;
-		_globalRowFlex = 1;
-		_globalColumnFlex = 1;
-		_globalTopRatio = 0;
-		_globalLeftRatio = 0;
-
-		_id = std::string("");
-		_parent = nullptr;
-		_isMaster = false;
-
-		setBackgroundColor(sf::Color::Transparent);
-
-		_renderFunction = [](View &v){(void)v;};
-		_hasRenderFunction = false;
+		_visible = true;
 
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
@@ -240,6 +214,10 @@ namespace ReactViews {
 		_background.setFillColor(color);
 	}
 
+	void View::setVisible(bool visible) {
+		_visible = visible;
+	}
+
 	void View::setEvent(std::string key, std::function<void(View &)> func) {
 		_eventMap[key] = func;
 	}
@@ -311,8 +289,10 @@ namespace ReactViews {
 
 	void View::render() {
 		if (DOM.hasWindow() && DOM.isInit()) {
-			DOM.getWindow()->draw(_background);
-			_renderFunction(*this);
+			if (_visible) {
+				DOM.getWindow()->draw(_background);
+				_renderFunction(*this);
+			}
 			for (View &v : _childs)
 				v.render();
 		}

@@ -22,7 +22,6 @@ namespace ReactViews {
 	class View {
 	public:
 		View();
-		View(const double &flex);
 		~View() = default;
 		bool treeDelete();
 
@@ -58,6 +57,7 @@ namespace ReactViews {
 
 		//Style
 		void setBackgroundColor(sf::Color color);
+		void setVisible(bool visible);
 
 		//Events
 		void setEvent(std::string key, std::function<void(View &)> func);
@@ -83,6 +83,7 @@ namespace ReactViews {
 		std::vector<std::reference_wrapper<View>> getChilds() const { return _childs; };
 		sf::RectangleShape getZone() const { return _background; };
 		sf::Color getBackgroundColor() const { return _background.getFillColor(); };
+		bool isVisible() const { return _visible; };
 		bool hasParent() const { return _parent != nullptr; };
 		bool isDefault() const { return _isDefault; };
 		bool hasRenderFunction() const { return _hasRenderFunction; };
@@ -117,6 +118,7 @@ namespace ReactViews {
 		bool _isMaster;
 
 		sf::RectangleShape _background;
+		bool _visible;
 
 		std::map<std::string, std::function<void(View &)>> _eventMap;
 		std::function<void(View &)> _renderFunction;

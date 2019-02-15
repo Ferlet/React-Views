@@ -25,8 +25,19 @@
 		</View>
 	</View>
 	<View id="mainSeparator"/>
-	<View id="clearRow">
+	<View id="clearRow" flex="0.1">
 		<View id="sepClearGame" flex="0.05"/>
-		<View id="clearButton" flex="0.25"/>
+		<ImageView id="clearButton" flex="0.18" image="./ressources/clearButton.jpg"/>
+		<View flex="0.5"/>
+		<View id="checkBox" flex="0.1" flexDirection="column">
+			<View flex="0.18"/>
+			<View flex="0.64">
+				<View flex="0.2"/>
+				<View id="crossBox" flex="0.6">
+					<View flex="0.15" />
+					<ImageView id="crossImage" image="./ressources/RedCross.png" visible="false"/>
+				</View>
+			</View>
+		</View>
 	</View>
 </View>

@@ -3,6 +3,7 @@
 
 #include "../xmlLib/pugixml.hpp"
 #include "../View/View.hpp"
+#include "../ImageView/ImageView.hpp"
 
 namespace ReactViews {
 
@@ -39,6 +40,8 @@ namespace ReactViews {
 		void parseFromFile(const std::string &path);
 		void endParsingAndThrow(bool wasDisabled, std::exception except);
 		void evaluateDocument(pugi::xml_node &node, unsigned int level = 0, View *currentView = nullptr);
+		View *createView(View *v, pugi::xml_node_iterator &it, View *currentView);
+		View *createImageView(pugi::xml_node_iterator &it, View *currentView);
 
 	private:
 		Dom() { _view = nullptr; _keeper = nullptr; _autoSet = true; _window = nullptr; };

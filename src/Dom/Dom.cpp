@@ -98,40 +98,74 @@ namespace ReactViews {
 		if (level == 0 && getXmlChildNumber(node) > 1)
 			throw std::domain_error("XML elements must be enclosed in an enclosing tag");
 		for (pugi::xml_node_iterator it = node.begin(); it != node.end(); ++it) {
-			if (it->name() != std::string("View"))
+
+			View *v = nullptr;
+
+			if (it->name() == std::string("View"))
+				v = createView(v, it, currentView);
+			else if (it->name() == std::string("ImageView"))
+				v = createImageView(it, currentView);
+			else
 				throw std::domain_error("Wrong tag name");
-
-		    View *v = nullptr;
-			if (currentView == nullptr) {
-				v = new View();
-				_view = v;
-			} else {
-				v = new View();
-				currentView->addChild(*v);
-			}
-			v->mustBeCleaned();
-
-			pugi::xml_attribute id = it->attribute("id");
-			if (id != pugi::xml_attribute())
-				v->setId(id.value());
-
-			pugi::xml_attribute flex = it->attribute("flex");
-			if (flex != pugi::xml_attribute()) {
-				v->setFlex(flex.as_double());
-			}
-
-			pugi::xml_attribute flexDirection = it->attribute("flexDirection");
-			if (flexDirection != pugi::xml_attribute()) {
-				std::string value = flexDirection.value();
-				if (value == std::string("column"))
-					v->setFlexDirection(COLUMN);
-				if (value == std::string("row"))
-					v->setFlexDirection(ROW);
-			}
 
 		    evaluateDocument(*it, level + 1, v);
 		}
 	}
+
+	View *Dom::createView(View *v, pugi::xml_node_iterator &it, View *currentView) {
+		if (currentView == nullptr && v == nullptr) {
+			v = new View();
+			_view = v;
+		} else if (currentView != nullptr && v == nullptr) {
+			v = new View();
+			currentView->addChild(*v);
+		}
+		v->mustBeCleaned();
+
+		pugi::xml_attribute id = it->attribute("id");
+		if (id != pugi::xml_attribute())
+			v->setId(id.value());
+
+		pugi::xml_attribute flex = it->attribute("flex");
+		if (flex != pugi::xml_attribute()) {
+			v->setFlex(flex.as_double());
+		}
+
+		pugi::xml_attribute flexDirection = it->attribute("flexDirection");
+		if (flexDirection != pugi::xml_attribute()) {
+			std::string value = flexDirection.value();
+			if (value == std::string("column"))
+				v->setFlexDirection(COLUMN);
+			if (value == std::string("row"))
+				v->setFlexDirection(ROW);
+		}
+
+		pugi::xml_attribute visible = it->attribute("visible");
+		if (visible != pugi::xml_attribute()) {
+			v->setVisible(visible.as_bool());
+		}		
+
+		return v;
+	}
+
+	View *Dom::createImageView(pugi::xml_node_iterator &it, View *currentView) {
+		ImageView *v = nullptr;
+		if (currentView == nullptr) {
+			v = new ImageView();
+			_view = v;
+		} else if (currentView != nullptr && v == nullptr) {
+			v = new ImageView();
+			currentView->addChild(*v);
+		}
+		v->mustBeCleaned();
+
+		pugi::xml_attribute image = it->attribute("image");
+		if (image != pugi::xml_attribute()) {
+			v->loadFromFile(image.value());
+		}
+		return createView(v, it, currentView);
+	}
+
 
 	Dom::~Dom() {
 		if (_view)

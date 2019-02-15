@@ -1,0 +1,7 @@
+<View flexDirection="column">
+	<View flex="0.3"/>
+	<View flex="0.4">
+		<View flex="0.2"/>
+		<View id="winnerText" flex="0.6"/>
+	</View>
+</View>
