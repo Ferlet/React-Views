@@ -37,6 +37,11 @@ namespace ReactViews {
 		if (props.count("flex")) setFlex(std::stod(props["flex"]));
 		if (props.count("flexDirection")) setFlexDirection(props["flexDirection"] == "column" ? COLUMN : ROW);
 		if (props.count("visible")) setVisible((props["visible"] == "true" || props["visible"] == "1") ? true : false);
+		if (props.count("backgroundColor")) {
+			unsigned int x = std::stoul(props["backgroundColor"], nullptr, 16);
+
+			setBackgroundColor(sf::Color(x));
+		}
 
 		state = json::makeObject({});
 	}
