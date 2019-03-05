@@ -5,6 +5,10 @@
 #include "../View/View.hpp"
 #include "../ImageView/ImageView.hpp"
 
+#ifndef JSON
+	#define JSON(X) (json::makeObject(X))
+#endif
+
 namespace ReactViews {
 
 	class Dom {

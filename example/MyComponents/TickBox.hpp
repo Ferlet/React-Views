@@ -14,5 +14,4 @@ class TickBox : public ReactViews::View {
 	protected:
 		sf::Texture _texture;
 		sf::Sprite _sprite;
-		bool _hasImage;
 };

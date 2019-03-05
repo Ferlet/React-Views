@@ -37,6 +37,8 @@ namespace ReactViews {
 		if (props.count("flex")) setFlex(std::stod(props["flex"]));
 		if (props.count("flexDirection")) setFlexDirection(props["flexDirection"] == "column" ? COLUMN : ROW);
 		if (props.count("visible")) setVisible((props["visible"] == "true" || props["visible"] == "1") ? true : false);
+
+		state = json::makeObject({});
 	}
 
 	bool View::treeDelete() {
@@ -308,6 +310,14 @@ namespace ReactViews {
 			}
 			for (View &v : _childs)
 				v.render();
+		}
+	}
+
+	void View::setState(json::Entity ent) {
+		auto &mapped = const_cast<json::Object&>(ent.constGetData<json::Object>()).get();
+
+		for (auto kv : mapped) {
+			state[kv.first] = kv.second;
 		}
 	}
 

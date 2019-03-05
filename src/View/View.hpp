@@ -11,6 +11,7 @@
 #include <math.h>
 
 #include <SFML/Graphics.hpp>
+#include "../jsonLib/Json-master/srcs/Entity/Entity.hpp"
 
 namespace ReactViews {
 
@@ -98,6 +99,10 @@ namespace ReactViews {
 				return false;
 			return (_isMaster || _parent->isLinkedToDom());
 		}
+
+		//state
+		json::Entity state;
+		void setState(json::Entity ent);
 
 	protected:
 
