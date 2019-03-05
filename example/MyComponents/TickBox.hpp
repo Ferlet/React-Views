@@ -1,20 +1,16 @@
 
 #pragma once
 
-#include "../View/View.hpp"
+#include "Dom.hpp"
 
-namespace ReactViews {
-
-	class ImageView : public View {
+class TickBox : public ReactViews::View {
 	public:
-		ImageView();
-		~ImageView() = default;
+		TickBox(ReactViews::Props props);
+		~TickBox() = default;
 
 		void loadFromFile(const std::string path);
 	protected:
 		sf::Texture _texture;
 		sf::Sprite _sprite;
-
 		bool _hasImage;
-	};
-}
+};

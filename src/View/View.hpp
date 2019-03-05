@@ -93,7 +93,7 @@ namespace ReactViews {
 			return (_isMaster || _parent->isLinkedToDom());
 		}
 
-	private:
+	protected:
 
 		void setParent(View &view);
 

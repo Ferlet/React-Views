@@ -2,6 +2,7 @@
 #include <sstream>
 #include <array>
 #include "Dom.hpp"
+#include "TickBox.hpp"
 
 bool closing(sf::RenderWindow &window) {
 

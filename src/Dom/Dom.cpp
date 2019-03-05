@@ -122,6 +122,8 @@ namespace ReactViews {
 		}
 		v->mustBeCleaned();
 
+		parseProps(it);
+
 		pugi::xml_attribute id = it->attribute("id");
 		if (id != pugi::xml_attribute())
 			v->setId(id.value());
@@ -164,6 +166,27 @@ namespace ReactViews {
 			v->loadFromFile(image.value());
 		}
 		return createView(v, it, currentView);
+	}
+
+	Props Dom::parseProps(pugi::xml_node_iterator &it) {
+		Props props;
+
+		pugi::xml_attribute first = it->first_attribute();
+		if (first != pugi::xml_attribute()) {
+			props[first.name()] = first.value();
+			pugi::xml_attribute next = first.next_attribute();
+			while (next != pugi::xml_attribute()) {
+				props[next.name()] = next.value();
+				next = next.next_attribute();
+			}
+		}
+
+		for (std::pair<std::string, std::string> p : props) {
+			std::cout << p.first << " = " << p.second << std::endl;
+		}
+		std::cout << std::endl;
+
+		return props;
 	}
 
 
