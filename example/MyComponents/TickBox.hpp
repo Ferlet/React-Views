@@ -8,10 +8,12 @@ class TickBox : public ReactViews::View {
 		TickBox(ReactViews::Props props);
 		~TickBox() = default;
 
+		//needed
 		static TickBox *newInstance(ReactViews::Props props) { return (new TickBox(props)); };
 
-		void loadFromFile(const std::string path);
 	protected:
+		void loadFromFile(const std::string path);
+
 		sf::Texture _texture;
 		sf::Sprite _sprite;
 };
