@@ -7,8 +7,6 @@
 
 namespace ReactViews {
 
-	typedef std::map<std::string, std::string> Props;	
-
 	class Dom {
 	public:
 		static Dom &getInstance() {
@@ -17,7 +15,9 @@ namespace ReactViews {
 			return instance;
 		}
 
-		//void registerComponent(const std::string &name, std::function<View()>);
+		void registerComponent(const std::string &name, std::function<View *(Props props)> f) {
+			_factory[name] = f;
+		};
 
 		void enableAutoSet() { _autoSet = true; };
 		void disableAutoSet() { _autoSet = false; };
@@ -50,7 +50,14 @@ namespace ReactViews {
 		Props parseProps(pugi::xml_node_iterator &it);
 
 	private:
-		Dom() { _view = nullptr; _keeper = nullptr; _autoSet = true; _window = nullptr; };
+		Dom() {
+			_view = nullptr;
+			_keeper = nullptr;
+			_autoSet = true;
+			_window = nullptr;
+			registerComponent("View", View::newInstance);
+			registerComponent("ImageView", ImageView::newInstance);
+		};
 		Dom(Dom const&);
 		~Dom();
 		void operator=(Dom const&);
@@ -63,6 +70,9 @@ namespace ReactViews {
 		View *_keeper;
 		sf::RenderWindow *_window;
 		bool _autoSet;
+
+
+		std::map<std::string, std::function<View *(Props props)>> _factory;
 	};
 
 	#define DOM (ReactViews::Dom::getInstance())

@@ -4,7 +4,9 @@
 
 namespace ReactViews {
 
-	View::View() {
+	View::View(Props props) {
+		(void) props;
+
 		_mustBeCleaned = false;
 
 		_flex = 1;
@@ -30,6 +32,11 @@ namespace ReactViews {
 
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
+
+		if (props.count("id")) setId(props["id"]);
+		if (props.count("flex")) setFlex(std::stod(props["flex"]));
+		if (props.count("flexDirection")) setFlexDirection(props["flexDirection"] == "column" ? COLUMN : ROW);
+		if (props.count("visible")) setVisible((props["visible"] == "true" || props["visible"] == "1") ? true : false);
 	}
 
 	bool View::treeDelete() {
@@ -45,8 +52,8 @@ namespace ReactViews {
 	void View::setId(const std::string &id) {
 		if (id == "")
 			throw std::invalid_argument("Empty strings aren't valid");
-		if (!isLinkedToDom())
-			throw std::domain_error("Views must be linked to the Dom to be assigned an Id");
+		// if (!isLinkedToDom())
+		// 	throw std::domain_error("Views must be linked to the Dom to be assigned an Id");
 		if (isAvailableId(id)) {
 			_id = id;
 			return ;
@@ -135,6 +142,12 @@ namespace ReactViews {
 	}
 
 	void View::addChild(View &view) {
+		std::string id = view.getId();
+		if (id != "") {
+			if (!isAvailableId(id))
+				throw std::invalid_argument("Id must be unique");
+		}
+
 		view.setParent(*this);
 		_childs.push_back(view);
 		reevaluateChildFlex(_globalRowFlex, _globalColumnFlex, _globalTopRatio, _globalLeftRatio);

@@ -101,12 +101,24 @@ namespace ReactViews {
 
 			View *v = nullptr;
 
-			if (it->name() == std::string("View"))
-				v = createView(v, it, currentView);
-			else if (it->name() == std::string("ImageView"))
-				v = createImageView(it, currentView);
+			// if (it->name() == std::string("View"))
+			// 	v = createView(v, it, currentView);
+			// else if (it->name() == std::string("ImageView"))
+			// 	v = createImageView(it, currentView);
+			// else
+			// 	throw std::domain_error("Wrong tag name");
+
+			Props props = parseProps(it);
+			if (_factory.count(it->name()))
+				v = _factory[it->name()](props);
 			else
 				throw std::domain_error("Wrong tag name");
+			v->mustBeCleaned();
+			if (currentView == nullptr)
+				_view = v;
+			else {
+				currentView->addChild(*v);
+			}
 
 		    evaluateDocument(*it, level + 1, v);
 		}
@@ -180,11 +192,6 @@ namespace ReactViews {
 				next = next.next_attribute();
 			}
 		}
-
-		for (std::pair<std::string, std::string> p : props) {
-			std::cout << p.first << " = " << p.second << std::endl;
-		}
-		std::cout << std::endl;
 
 		return props;
 	}

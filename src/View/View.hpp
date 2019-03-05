@@ -14,6 +14,8 @@
 
 namespace ReactViews {
 
+	typedef std::map<std::string, std::string> Props;
+
 	typedef enum {
 		ROW,
 		COLUMN
@@ -21,9 +23,13 @@ namespace ReactViews {
 
 	class View {
 	public:
-		View();
+		View() {View(std::map<std::string, std::string>());};
+		View(Props props);
 		~View() = default;
 		bool treeDelete();
+
+		//must be overridden
+		static View *newInstance(Props props) { return (new View(props)); };
 
 		//used by the Dom class
 		void mustBeCleaned() { _mustBeCleaned = true; };
