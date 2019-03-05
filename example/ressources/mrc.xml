@@ -35,7 +35,8 @@
 				<View flex="0.2"/>
 				<View id="crossBox" flex="0.6">
 					<View flex="0.15" />
-					<ImageView id="crossImage" image="./ressources/RedCross.png" visible="false"/>
+					<!-- <ImageView id="crossImage" image="./ressources/RedCross.png" visible="false"/> -->
+					<TickBox src="./ressources/RedCross.png"></TickBox>
 				</View>
 			</View>
 		</View>

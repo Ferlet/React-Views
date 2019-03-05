@@ -16,7 +16,7 @@ namespace ReactViews {
 		}
 
 		void registerComponent(const std::string &name, std::function<View *(Props props)> f) {
-			_factory[name] = f;
+			_factory[name] = std::move(f);
 		};
 
 		void enableAutoSet() { _autoSet = true; };
@@ -44,8 +44,6 @@ namespace ReactViews {
 		void parseFromFile(const std::string &path);
 		void endParsingAndThrow(bool wasDisabled, std::exception except);
 		void evaluateDocument(pugi::xml_node &node, unsigned int level = 0, View *currentView = nullptr);
-		View *createView(View *v, pugi::xml_node_iterator &it, View *currentView);
-		View *createImageView(pugi::xml_node_iterator &it, View *currentView);
 
 		Props parseProps(pugi::xml_node_iterator &it);
 

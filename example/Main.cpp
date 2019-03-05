@@ -56,10 +56,7 @@ void loadFirstScene(bool &turn, bool &mode, sf::Sprite &thinkingSprite, sf::Spri
 	DOM.findViewById("square 3-2").setEvent("onLeftClick", [squareFunc, &tab, turn](ReactViews::View &view){squareFunc(view); tab[2][1] = turn;});
 	DOM.findViewById("square 3-3").setEvent("onLeftClick", [squareFunc, &tab, turn](ReactViews::View &view){squareFunc(view); tab[2][2] = turn;});
 
-	DOM.findViewById("crossBox").setEvent("onLeftClick", [&mode](ReactViews::View &view){
-		ReactViews::View &v = view.findViewById("crossImage");
-		v.setVisible(!v.isVisible());
-	});
+	(void)mode;
 
 	DOM.findViewById("clearButton").setEvent("onLeftClick", [](ReactViews::View &view){
 		(void)view;
@@ -75,6 +72,10 @@ void loadFirstScene(bool &turn, bool &mode, sf::Sprite &thinkingSprite, sf::Spri
 }
 
 int main() {
+
+	DOM.registerComponent("TickBox", TickBox::newInstance);
+	// DOM.registerComponent("View", ReactViews::View::newInstance);
+
 
 	//--------------SFML stuff------------------
 	sf::Texture thinkingTexture;
