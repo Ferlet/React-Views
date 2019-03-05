@@ -11,7 +11,7 @@
 #include <math.h>
 
 #include <SFML/Graphics.hpp>
-#include "../jsonLib/Json-master/srcs/Entity/Entity.hpp"
+#include "../jsonLib/Json/Entity.hpp"
 
 namespace ReactViews {
 

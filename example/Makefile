@@ -3,7 +3,7 @@ PP	=	g++
 
 NAME	=	example
 
-CPPFLAGS	=	-W -Wall -Werror -Wextra -std=c++11 -lsfml-graphics -lsfml-system -lsfml-window -L../ -lReact-Views -I../src/Dom -I./MyComponents/
+CPPFLAGS	=	-W -Wall -Werror -Wextra -std=c++14 -lsfml-graphics -lsfml-system -lsfml-window -L../ -lReact-Views -I../src/Dom -I./MyComponents/
 RM	=	rm -f
 
 SRCS	=	./Main.cpp \

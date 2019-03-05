@@ -12,9 +12,9 @@
 
 #include <istream>
 #include <exception>
-#include "Entity/Entity.hpp"
+#include "Entity.hpp"
 
-#ifdef TARGET_WINDOWS
+#if defined _MSC_VER
  #define TOLOWER ::tolower
  #define ISPRINT ::isprint
 #else

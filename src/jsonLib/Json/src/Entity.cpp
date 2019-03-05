@@ -10,7 +10,7 @@
 
 #include <iostream>
 #include <cstring>
-#include "Entity.hpp"
+#include "../Entity.hpp"
 
 namespace json
 {
@@ -47,7 +47,15 @@ namespace json
 		_data(std::make_shared<Number>((double) nbr))
 	{}
 
+	Entity::Entity(unsigned long nbr):
+		_data(std::make_shared<Number>((double) nbr))
+	{}
+	
 	Entity::Entity(int nbr):
+		_data(std::make_shared<Number>((double) nbr))
+	{}
+
+	Entity::Entity(unsigned int nbr):
 		_data(std::make_shared<Number>((double) nbr))
 	{}
 
@@ -417,6 +425,11 @@ namespace json
 		return *this;
 	}
 
+    std::string         &String::get(void)
+	{
+		return *this;
+	}
+
 	void		String::set(std::string const &str)
 	{
 		dynamic_cast<std::string&>(*this) = str;
@@ -563,6 +576,11 @@ namespace json
 		return *this;
 	}
 
+	const std::unordered_map<std::string, Entity>	&Object::get(void) const
+	{
+		return *this;
+	}
+
 	std::string	Object::toString(void) const
 	{
 		std::ostringstream	stm;
@@ -629,6 +647,11 @@ namespace json
 	}
 
 	std::vector<Entity>	&Array::get(void)
+	{
+		return *this;
+	}
+
+	const std::vector<Entity>	&Array::get(void) const
 	{
 		return *this;
 	}

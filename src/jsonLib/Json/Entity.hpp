@@ -19,7 +19,7 @@
 #include <memory>
 #include <functional>
 
-#ifdef TARGET_WINDOWS
+#if defined _MSC_VER
  #define STRCASECMP ::_stricmp
  #define STRDUP ::_strdup
 #else
@@ -63,7 +63,9 @@ namespace json
 		Entity(Type type = NUL);
 		Entity(double nbr);
 		Entity(long nbr);
+		Entity(unsigned long nbr);
 		Entity(int nbr);
+		Entity(unsigned int nbr);
 		Entity(bool bol);
 		Entity(std::string const &str);
 		Entity(const char *s);
@@ -94,15 +96,39 @@ namespace json
 		T	to() const;
 		
 		template<typename T>
-		T	&getData()
-		{
-			return *(static_cast<T*>(_data.get()));
+		T	&getData() {
+			return *(reinterpret_cast<T*>(_data.get()));
+		}
+
+		template<typename T>
+		const T	&getData() const {
+			return *(reinterpret_cast<T*>(_data.get()));
+		}
+
+		template<typename T>
+		auto	&value() {
+			return (reinterpret_cast<T*>(_data.get()))->get();
+		}
+
+		template<typename T>
+		const auto	&value() const {
+			return (reinterpret_cast<T*>(_data.get()))->get();
+		}
+
+		template<typename T, typename U>
+		U	value() {
+			return (reinterpret_cast<T*>(_data.get()))->get();
+		}
+
+		template<typename T, typename U>
+		U	value() const {
+			return (reinterpret_cast<T*>(_data.get()))->get();
 		}
 
 		template<typename T>
 		const T	&constGetData() const
 		{
-			return *(static_cast<T*>(_data.get()));
+			return *(reinterpret_cast<T*>(_data.get()));
 		}
 
 		static inline Entity	newObject()
@@ -197,9 +223,9 @@ namespace json
 		clone(Entity::CloneOption attr) const final;
 		virtual	void
 		print(std::ostream &stm, Entity::StringifyAttr attr, int depth) const final;
-		const std::string
-				&get(void) const;
-		void		set(std::string const &str);
+		const std::string	&get(void) const;
+        std::string         &get(void);
+		void				set(std::string const &str);
 
 		virtual	std::string	toString(void) const final;
 		virtual double		toNumber(void) const final;
@@ -239,7 +265,8 @@ namespace json
 		clone(Entity::CloneOption attr) const final;
 		virtual	void
 		print(std::ostream &stm, Entity::StringifyAttr attr, int depth) const final;
-		std::unordered_map<std::string, Entity>	&get(void);
+		std::unordered_map<std::string, Entity>			&get(void);
+		const std::unordered_map<std::string, Entity>	&get(void) const;
 
 		virtual	std::string	toString(void) const final;
 	};
@@ -256,7 +283,8 @@ namespace json
 		clone(Entity::CloneOption attr) const final;
 		virtual	void
 		print(std::ostream &stm, Entity::StringifyAttr attr, int depth) const final;
-		std::vector<Entity>		&get(void);
+		std::vector<Entity>			&get(void);
+		const std::vector<Entity>	&get(void) const;
 
 		virtual	std::string	toString(void) const final;
 	};

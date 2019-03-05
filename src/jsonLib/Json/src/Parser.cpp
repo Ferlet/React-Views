@@ -13,14 +13,14 @@
 #include <vector>
 #include <cstring>
 #include <functional>
-#include "Parser.hpp"
+#include "../Parser.hpp"
 
 namespace json
 {
 	inline char Parser::__peek() const {
 		char	c;
 
-		while ((c = _stm.peek()) && c && 
+		while ((c = _stm.peek()) && c &&
 			(c == '\n' || c == ' ' || c == '\t')) {
 			const_cast<Counter&>(_count).offset++;
 			if (c == '\n') {
@@ -84,12 +84,12 @@ namespace json
 			Entity	(Parser::*member)(void);
 		};
 		static std::vector<struct MemberIdent> tab = {
-			{.ident = "\"'", .member = &Parser::_getStr},
-			{.ident = "{", .member = &Parser::_getObj},
-			{.ident = "[", .member = &Parser::_getArr},
-			{.ident = "tfTF", .member = &Parser::_getBool},
-			{.ident = "0123456789-.", .member = &Parser::_getNumber},
-			{.ident = "nN", .member = &Parser::_getNull}
+			{"\"'", &Parser::_getStr},
+			{"{", &Parser::_getObj},
+			{"[", &Parser::_getArr},
+			{"tfTF", &Parser::_getBool},
+			{"0123456789-.", &Parser::_getNumber},
+			{"nN", &Parser::_getNull}
 		};
 
 		while ((c = __peek()) && c && c == ',')
@@ -116,9 +116,9 @@ namespace json
 	{
 		double	value;
 
-		_stm.gcount();
+		(void) _stm.gcount();
 		_stm >> value;
-		_count.offset += _stm.gcount();
+		_count.offset += static_cast<std::size_t>(_stm.gcount());
 		return Entity(value);
 	}
 
@@ -255,15 +255,12 @@ namespace json
 		_msg("Parser: Error: " + custom)
 	{}
 
-	Parser::ParserException::ParserException(Parser::Counter const &count, std::istream &stm)
+	Parser::ParserException::ParserException(Parser::Counter const &count, std::istream &stm):
+		_pos({count.line, count.offset - count.lineOffset})
 	{
 		std::ostringstream	_sstm;
 		unsigned char		c =  stm.peek();
-	
-		_pos = {
-			.line = count.line,
-			.col = count.offset - count.lineOffset
-		};
+
 		_sstm << "Parser: Error: "
 			<< "(Ln " << _pos.line << ": Col "
 			<< _pos.col << "): "
@@ -275,7 +272,7 @@ namespace json
 		} else {
 			_sstm << "0x" << std::hex << +c;
 		}
-		_sstm << '\'' << std::endl;
+		_sstm << '\'';
 		_msg = _sstm.str();
 	}
 
