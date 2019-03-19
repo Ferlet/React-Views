@@ -1,6 +1,6 @@
 
-<View>
-	<View flex="0.48" flexDirection="column">
+<View flexDirection="column">
+	<View flex="0.40">
 
 		<View flex="0.48">
 			<TickBox src="./ressources/RedCross.png"></TickBox>
@@ -16,7 +16,7 @@
 
 	<View flex="0.04" backgroundColor="ffffffff"/>
 
-	<View flex="0.48" flexDirection="column">
+	<View flex="0.40">
 
 		<View flex="0.48">
 			<TickBox src="./ressources/RedCross.png"></TickBox>
@@ -29,4 +29,5 @@
 		</View>
 
 	</View>
+	<View flex="0.16"><LifeBar/></View>
 </View>

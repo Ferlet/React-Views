@@ -7,7 +7,8 @@ CPPFLAGS	=	-W -Wall -Werror -Wextra -std=c++14 -lsfml-graphics -lsfml-system -ls
 RM	=	rm -f
 
 SRCS	=	./Main.cpp \
-			./MyComponents/TickBox.cpp
+			./MyComponents/TickBox.cpp \
+			./MyComponents/LifeBar.cpp
 
 OBJS	=	$(SRCS:.cpp=.o)
 

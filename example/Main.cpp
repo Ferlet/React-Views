@@ -1,6 +1,7 @@
 
 #include "Dom.hpp"
 #include "TickBox.hpp"
+#include "LifeBar.hpp"
 
 bool closing(sf::RenderWindow &window) {
 
@@ -18,6 +19,7 @@ bool closing(sf::RenderWindow &window) {
 int main() {
 
 	DOM.registerComponent("TickBox", TickBox::newInstance);
+	DOM.registerComponent("LifeBar", LifeBar::newInstance);
 
 	//---------------Dom creation---------------
 	sf::RenderWindow window(sf::VideoMode(800, 600), "window");
