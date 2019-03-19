@@ -15,12 +15,24 @@ void Carret::componentDidMount() {
 			{"remain", bar.state["remain"].to<int>() + inc}
 		}));
 	});
+
+	ReactViews::View image = _childs[0];
+
+	if (this->props["dir"] == "left") {
+		image.setState(json::makeObject({
+			{"image", "./ressources/caret-left.png"}
+		}));
+	} else {
+		image.setState(json::makeObject({
+			{"image", "./ressources/caret-right.png"}
+		}));
+	}
 }
 
 ReactViews::View *Carret::componentRender() {
 	return DOM.parseFromString(
-		"<View flex='1' backgroundColor='ffffffff'>"
+		"<ImageView flex='1'>"
 
-		"</View>"
+		"</ImageView>"
 	);
 }

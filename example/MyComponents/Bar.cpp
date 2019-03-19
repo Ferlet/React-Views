@@ -1,7 +1,7 @@
 
-#include "LifeBar.hpp"
+#include "Bar.hpp"
 
-void LifeBar::constructor(ReactViews::Props props) {
+void Bar::constructor(ReactViews::Props props) {
 	ReactViews::View::constructor(props);
 
 	this->state = json::makeObject({
@@ -9,7 +9,7 @@ void LifeBar::constructor(ReactViews::Props props) {
 	});
 }
 
-void LifeBar::componentDidMount() {
+void Bar::componentDidMount() {
 
 	setEvent("onLeftClick", [](ReactViews::View &view){
 		if (view.state["remain"].to<int>() > 0) {
@@ -27,19 +27,18 @@ void LifeBar::componentDidMount() {
 	});
 }
 
-void LifeBar::updateRender() {
+void Bar::updateRender() {
 	if (this->state["remain"].to<int>() > 10)
 		this->state["remain"] = 10;
 	if (this->state["remain"].to<int>() < 0)
 		this->state["remain"] = 0;
 }
 
-void LifeBar::didUpdate() {
+void Bar::componentDidUpdate() {
 	ReactViews::View &bars = getChilds()[0].get()
 				.getChilds()[1].get()
 				.getChilds()[1];
 
-	(void)bars;
 	for (int i = this->state["remain"].to<int>() - 1; i >= 0; i--) {
 		ReactViews::View &bar = bars.getChilds()[i];
 
@@ -53,7 +52,7 @@ void LifeBar::didUpdate() {
 	}
 }
 
-ReactViews::View *LifeBar::componentRender() {
+ReactViews::View *Bar::componentRender() {
 	return DOM.parseFromString(
 		"<View flex='1'>"
 			"<View flex='0.01' backgroundColor='ffffffff'/>"

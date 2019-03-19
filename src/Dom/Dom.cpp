@@ -16,7 +16,7 @@ namespace ReactViews {
 				if (v._mustUpdate) {
 					v._mustUpdate = false;
 					v.updateRender();
-					v.didUpdate();
+					v.componentDidUpdate();
 				}
 			});
 		}

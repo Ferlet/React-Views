@@ -82,7 +82,7 @@ namespace ReactViews {
 		virtual void componentDidMount();
 		virtual View *componentRender();
 		virtual void updateRender();
-		virtual void didUpdate();
+		virtual void componentDidUpdate();
 
 		//Getters
 		std::string getId() const { return _id; };

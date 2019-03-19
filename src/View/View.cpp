@@ -325,7 +325,7 @@ namespace ReactViews {
 		render();
 	}
 
-	void View::didUpdate() {
+	void View::componentDidUpdate() {
 		
 	}
 

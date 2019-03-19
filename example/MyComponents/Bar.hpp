@@ -2,18 +2,18 @@
 
 #include "Dom.hpp"
 
-class LifeBar : public ReactViews::View {
+class Bar : public ReactViews::View {
 	public:
-		LifeBar() = default;
-		~LifeBar() = default;
+		Bar() = default;
+		~Bar() = default;
 
 		//needed
-		static LifeBar *newInstance() { return (new LifeBar()); };
+		static Bar *newInstance() { return (new Bar()); };
 
 		//lifecycle
 		void constructor(ReactViews::Props props) override;
 		void componentDidMount() override;
 		ReactViews::View *componentRender() override;
 		void updateRender() override;
-		void didUpdate() override;
+		void componentDidUpdate() override;
 };

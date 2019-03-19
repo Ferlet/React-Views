@@ -1,37 +1,11 @@
 
-<View flexDirection="column">
-	<View flex="0.40">
-
-		<View flex="0.48">
-			<TickBox src="./ressources/RedCross.png"></TickBox>
-		</View>
-
-		<View flex="0.04" backgroundColor="ffffffff"/>
-
-		<View flex="0.48">
-			<TickBox src="./ressources/RedCross.png"></TickBox>
-		</View>
-		
-	</View>
-
-	<View flex="0.04" backgroundColor="ffffffff"/>
-
-	<View flex="0.40">
-
-		<View flex="0.48">
-			<TickBox src="./ressources/RedCross.png"></TickBox>
-		</View>
-
-		<View flex="0.04" backgroundColor="ffffffff"/>
-
-		<View flex="0.48">
-			<TickBox src="./ressources/RedCross.png"></TickBox>
-		</View>
-
-	</View>
+<View flexDirection="column" backgroundColor="aaaaaaff">
+	<View flex="0.80"/>
 	<View flex="0.16">
 		<Carret flex="0.1" dir="left"/>
-		<View flex="0.8"><LifeBar id="bar"/></View>
+		<View flex="0.8">
+			<Bar id="bar"/>
+		</View>
 		<Carret flex="0.1" dir="right"/>
 	</View>
 </View>

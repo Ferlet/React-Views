@@ -19,6 +19,7 @@ namespace ReactViews {
 		void newProps(Props props);
 
 		View *componentRender() override;
+		void componentDidUpdate() override;
 
 	protected:
 		sf::Texture _texture;

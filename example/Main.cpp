@@ -1,13 +1,13 @@
 
 #include "Dom.hpp"
 #include "TickBox.hpp"
-#include "LifeBar.hpp"
+#include "Bar.hpp"
 #include "Carret.hpp"
 
 int main() {
 
 	DOM.registerComponent("TickBox", TickBox::newInstance);
-	DOM.registerComponent("LifeBar", LifeBar::newInstance);
+	DOM.registerComponent("Bar", Bar::newInstance);
 	DOM.registerComponent("Carret", Carret::newInstance);
 
 	//---------------Dom creation---------------
