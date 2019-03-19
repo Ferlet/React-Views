@@ -77,11 +77,12 @@ namespace ReactViews {
 		void setRenderFunction(std::function<void(View &)> func);
 		void clearRenderFunction();
 		void render();
-		virtual View *componentRender();
-		virtual void updateRender();
 
 		//Lifecycle
 		virtual void componentDidMount();
+		virtual View *componentRender();
+		virtual void updateRender();
+		virtual void didUpdate();
 
 		//Getters
 		std::string getId() const { return _id; };

@@ -29,5 +29,9 @@
 		</View>
 
 	</View>
-	<View flex="0.16"><LifeBar/></View>
+	<View flex="0.16">
+		<Carret flex="0.1" dir="left"/>
+		<View flex="0.8"><LifeBar id="bar"/></View>
+		<Carret flex="0.1" dir="right"/>
+	</View>
 </View>

@@ -5,6 +5,21 @@ namespace ReactViews {
 
 	void Dom::start() {
 		while (startFrom(*_view));
+
+		while (_window->isOpen() && !isClosing()) {
+			_window->clear();
+			render();
+			_window->display();
+			checkEvents();
+
+			applyToViewTree(*_view, [](View &v){
+				if (v._mustUpdate) {
+					v._mustUpdate = false;
+					v.updateRender();
+					v.didUpdate();
+				}
+			});
+		}
 	}
 
 	bool Dom::startFrom(View &view) {
@@ -26,6 +41,18 @@ namespace ReactViews {
 		}
 
 		return added;
+	}
+
+	bool Dom::isClosing() {
+		sf::Event event;
+
+		while (_window->pollEvent(event)) {
+			if (event.type == sf::Event::Closed)
+				return true;
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			return true;
+		return false;
 	}
 
 	void Dom::setMainView(View &view) {

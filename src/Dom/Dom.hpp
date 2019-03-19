@@ -28,6 +28,8 @@ namespace ReactViews {
 		void start();
 		bool startFrom(View &view);
 
+		bool isClosing();
+
 		void enableAutoSet() { _autoSet = true; };
 		void disableAutoSet() { _autoSet = false; };
 

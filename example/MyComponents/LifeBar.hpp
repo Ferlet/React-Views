@@ -12,6 +12,8 @@ class LifeBar : public ReactViews::View {
 
 		//lifecycle
 		void constructor(ReactViews::Props props) override;
-		void componentDidMount();
-		ReactViews::View *componentRender();
+		void componentDidMount() override;
+		ReactViews::View *componentRender() override;
+		void updateRender() override;
+		void didUpdate() override;
 };

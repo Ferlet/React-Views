@@ -313,6 +313,10 @@ namespace ReactViews {
 		}
 	}
 
+	void View::componentDidMount() {
+
+	}
+
 	View *View::componentRender() {
 		return nullptr;
 	}
@@ -321,8 +325,8 @@ namespace ReactViews {
 		render();
 	}
 
-	void View::componentDidMount() {
-
+	void View::didUpdate() {
+		
 	}
 
 	void View::setState(json::Entity ent) {
@@ -372,12 +376,14 @@ void printView(std::ostream &stream, ReactViews::View &view, const unsigned int 
 	if (view.isLinkedToDom() && DOM.hasWindow()) {
 		// stream << "\t-> Rect(pos = {" << view.getZone().getPosition().x << ", " << view.getZone().getPosition().y << "}, size = {" << view.getZone().getSize().x << ", " << view.getZone().getSize().y << "}";
 		// stream << ", color: " << (int)view.getZone().getFillColor().r << ", " << (int)view.getZone().getFillColor().g << ", " << (int)view.getZone().getFillColor().b << ")";
-		ReactViews::ImageView *image = dynamic_cast<ReactViews::ImageView *>(&view);
+		// ReactViews::ImageView *image = dynamic_cast<ReactViews::ImageView *>(&view);
 
-		if (image)
-			std::cout << "IMAGE" << std::endl;
-		else
-			std::cout << "VIEW" << std::endl;
+		// if (image)
+		// 	std::cout << "IMAGE" << std::endl;
+		// else
+		// 	std::cout << "VIEW" << std::endl;
+
+		std::cout << view.state << std::endl;
 	}
 
 	for (ReactViews::View &v : view.getChilds()) {

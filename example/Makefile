@@ -8,7 +8,8 @@ RM	=	rm -f
 
 SRCS	=	./Main.cpp \
 			./MyComponents/TickBox.cpp \
-			./MyComponents/LifeBar.cpp
+			./MyComponents/LifeBar.cpp \
+			./MyComponents/Carret.cpp
 
 OBJS	=	$(SRCS:.cpp=.o)
 
