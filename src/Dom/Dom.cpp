@@ -3,6 +3,31 @@
 
 namespace ReactViews {
 
+	void Dom::start() {
+		while (startFrom(*_view));
+	}
+
+	bool Dom::startFrom(View &view) {
+		bool added = false;
+
+		if (!view._didRender) {
+			View *mounted = view.componentRender();
+
+			if (mounted) {
+				view.addChild(*mounted);
+				view._didRender = true;
+				added = true;
+			}
+		}
+		view.componentDidMount();
+
+		for (View &v : view.getChilds()) {
+			added = startFrom(v) || added;
+		}
+
+		return added;
+	}
+
 	void Dom::setMainView(View &view) {
 		if (view.hasParent())
 			throw std::domain_error("Main View must be the first node of its tree");
@@ -59,10 +84,10 @@ namespace ReactViews {
 			_view->render();
 	}
 
-	View *Dom::parseFromString(std::string &str) {
-		std::ifstream stream(str);
+	View *Dom::parseFromString(std::string str) {
+
 		pugi::xml_document doc;
-		pugi::xml_parse_result result = doc.load(stream);
+		pugi::xml_parse_result result = doc.load_string(str.c_str());
 		if (!result) {
 			throw std::domain_error("XML syntax error");
 		}

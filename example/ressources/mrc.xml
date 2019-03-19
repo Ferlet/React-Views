@@ -3,14 +3,12 @@
 	<View flex="0.48" flexDirection="column">
 
 		<View flex="0.48">
-			<View flex="0.2"></View>
 			<TickBox src="./ressources/RedCross.png"></TickBox>
 		</View>
 
 		<View flex="0.04" backgroundColor="ffffffff"/>
 
 		<View flex="0.48">
-			<View flex="0.2"></View>
 			<TickBox src="./ressources/RedCross.png"></TickBox>
 		</View>
 		
@@ -21,14 +19,12 @@
 	<View flex="0.48" flexDirection="column">
 
 		<View flex="0.48">
-			<View flex="0.2"></View>
 			<TickBox src="./ressources/RedCross.png"></TickBox>
 		</View>
 
 		<View flex="0.04" backgroundColor="ffffffff"/>
 
 		<View flex="0.48">
-			<View flex="0.2"></View>
 			<TickBox src="./ressources/RedCross.png"></TickBox>
 		</View>
 

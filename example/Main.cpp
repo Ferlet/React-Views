@@ -28,6 +28,8 @@ int main() {
 	DOM.parseFromFile("./ressources/mrc.xml");
 	//------------------------------------------
 
+	DOM.start();
+
 	//------------------Display---------------
 	while (window.isOpen() && !closing(window)) {
 		window.clear();

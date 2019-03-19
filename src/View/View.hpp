@@ -80,6 +80,9 @@ namespace ReactViews {
 		virtual View *componentRender();
 		virtual void updateRender();
 
+		//Lifecycle
+		virtual void componentDidMount();
+
 		//Getters
 		std::string getId() const { return _id; };
 		double getFlex() const { return _flex; };
@@ -109,6 +112,9 @@ namespace ReactViews {
 		//props
 		Props props;
 		virtual void newProps(Props props);
+
+		bool _mustUpdate;
+		bool _didRender;
 
 	protected:
 
@@ -141,10 +147,9 @@ namespace ReactViews {
 		std::function<void(View &)> _renderFunction;
 		bool _hasRenderFunction;
 
-		bool _mustUpdate;
 	};
 
 }
 
-std::ostream& operator<< (std::ostream &stream, const ReactViews::View &view);
-void printView(std::ostream &stream, const ReactViews::View &view, const unsigned int &floor);
+std::ostream& operator<< (std::ostream &stream, ReactViews::View &view);
+void printView(std::ostream &stream, ReactViews::View &view, const unsigned int &floor);

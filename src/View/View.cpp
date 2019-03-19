@@ -1,6 +1,7 @@
 
 #include "Dom.hpp"
 #include "View.hpp"
+#include "ImageView.hpp"
 
 namespace ReactViews {
 
@@ -47,6 +48,7 @@ namespace ReactViews {
 		newProps(props);
 
 		_mustUpdate = true;
+		_didRender = false;
 	}
 
 	void View::setId(const std::string &id) {
@@ -305,9 +307,9 @@ namespace ReactViews {
 			if (_visible) {
 				DOM.getWindow()->draw(_background);
 				_renderFunction(*this);
+				for (View &v : _childs)
+					v.render();
 			}
-			for (View &v : _childs)
-				v.render();
 		}
 	}
 
@@ -317,6 +319,10 @@ namespace ReactViews {
 
 	void View::updateRender() {
 		render();
+	}
+
+	void View::componentDidMount() {
+
 	}
 
 	void View::setState(json::Entity ent) {
@@ -350,22 +356,28 @@ namespace ReactViews {
 
 }
 
-std::ostream& operator<< (std::ostream &stream, const ReactViews::View &view) {
+std::ostream& operator<< (std::ostream &stream, ReactViews::View &view) {
 	printView(stream, view, 0);
 
 	return stream;
 }
 
-void printView(std::ostream &stream, const ReactViews::View &view, const unsigned int &floor) {
+void printView(std::ostream &stream, ReactViews::View &view, const unsigned int &floor) {
 
 	for (unsigned int i = 0; i < floor; i++) {
 		stream << "\t";
 	}
-	stream << "global: {top: " << view.getGlobalTopRatio() << ", left: " << view.getGlobalLeftRatio() << "} | ";
-	stream << "size: {vertical: " << view.getGlobalColumnFlex() << ", horizontal: " << view.getGlobalRowFlex() << "}";
+	// stream << "global: {top: " << view.getGlobalTopRatio() << ", left: " << view.getGlobalLeftRatio() << "} | ";
+	// stream << "size: {vertical: " << view.getGlobalColumnFlex() << ", horizontal: " << view.getGlobalRowFlex() << "}";
 	if (view.isLinkedToDom() && DOM.hasWindow()) {
-		stream << "\t-> Rect(pos = {" << view.getZone().getPosition().x << ", " << view.getZone().getPosition().y << "}, size = {" << view.getZone().getSize().x << ", " << view.getZone().getSize().y << "}";
-		stream << ", color: " << (int)view.getZone().getFillColor().r << ", " << (int)view.getZone().getFillColor().g << ", " << (int)view.getZone().getFillColor().b << ")";
+		// stream << "\t-> Rect(pos = {" << view.getZone().getPosition().x << ", " << view.getZone().getPosition().y << "}, size = {" << view.getZone().getSize().x << ", " << view.getZone().getSize().y << "}";
+		// stream << ", color: " << (int)view.getZone().getFillColor().r << ", " << (int)view.getZone().getFillColor().g << ", " << (int)view.getZone().getFillColor().b << ")";
+		ReactViews::ImageView *image = dynamic_cast<ReactViews::ImageView *>(&view);
+
+		if (image)
+			std::cout << "IMAGE" << std::endl;
+		else
+			std::cout << "VIEW" << std::endl;
 	}
 
 	for (ReactViews::View &v : view.getChilds()) {

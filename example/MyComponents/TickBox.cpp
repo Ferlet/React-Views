@@ -3,33 +3,34 @@
 
 void TickBox::constructor(ReactViews::Props props) {
 	ReactViews::View::constructor(props);
+}
 
-	setEvent("onLeftClick", [this](ReactViews::View &view){
-		(void)view;
-		if (this->state["displayed"].to<bool>()) {clearRenderFunction();}
-		else {setRenderFunction([this](View &view){(void)view;
-		 		if (this->state["hasImage"] == true) draw(_sprite);
-		 	});
-		}
+void TickBox::componentDidMount() {
 
-		this->setState(json::makeObject{
-		 	{"displayed", !this->state["displayed"].to<bool>()}
-		});
+	setEvent("onLeftClick", [](ReactViews::View &view){
+
+		View &v = view.getChilds()[0].get()
+		.getChilds()[1].get()
+		.getChilds()[1].get()
+		.getChilds()[1];
+		v.setVisible(!v.isVisible());
 	});
 }
 
-void TickBox::newProps(ReactViews::Props props) {
-	View::newProps(props);
-
-	if (props.count("src")) loadFromFile(props["src"]);
-}
-
-void TickBox::loadFromFile(const std::string path) {
-	_texture.loadFromFile(path);
-	_sprite.setTexture(_texture);
-	
-	this->setState(json::makeObject{
-			{"hasImage", true},
-			{"displayed", false}
-		});
+ReactViews::View *TickBox::componentRender() {
+	return DOM.parseFromString(
+		"<View flex='1'>\n"
+			"<View flex='0.2'/>\n"
+			"<View flex='0.6' flexDirection='column'>\n"
+				"<View flex='0.2'/>\n"
+				"<View flex='0.6'>\n"
+					"<View flex='0.2'/>"
+					"<ImageView flex='0.6' image='./ressources/RedCross.png'></ImageView>"
+					"<View flex='0.2'></View>"
+				"</View>\n"
+				"<View flex='0.2'/>\n"
+			"</View>\n"
+			"<View flex='0.2'/>\n"
+		"</View>\n"
+	);
 }

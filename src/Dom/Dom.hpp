@@ -25,6 +25,9 @@ namespace ReactViews {
 			_factory[name] = std::move(f);
 		};
 
+		void start();
+		bool startFrom(View &view);
+
 		void enableAutoSet() { _autoSet = true; };
 		void disableAutoSet() { _autoSet = false; };
 
@@ -48,7 +51,7 @@ namespace ReactViews {
 		void render();
 
 		//parsing
-		View *parseFromString(std::string &str);
+		View *parseFromString(std::string str);
 		View *evaluateString(pugi::xml_node &node, unsigned int level = 0, View *currentView = nullptr);
 
 

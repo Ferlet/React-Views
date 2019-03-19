@@ -17,6 +17,9 @@ namespace ReactViews {
 		void loadFromFile(const std::string path);
 
 		void newProps(Props props);
+
+		View *componentRender() override;
+
 	protected:
 		sf::Texture _texture;
 		sf::Sprite _sprite;
