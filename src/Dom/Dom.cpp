@@ -59,6 +59,45 @@ namespace ReactViews {
 			_view->render();
 	}
 
+	View *Dom::parseFromString(std::string &str) {
+		std::ifstream stream(str);
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load(stream);
+		if (!result) {
+			throw std::domain_error("XML syntax error");
+		}
+		View *v = evaluateString(doc);
+		return v;
+	}
+
+	View *Dom::evaluateString(pugi::xml_node &node, unsigned int level, View *currentView) {
+		
+		if (level == 0 && getXmlChildNumber(node) > 1)
+			throw std::domain_error("XML elements must be enclosed in an enclosing tag");
+		for (pugi::xml_node_iterator it = node.begin(); it != node.end(); ++it) {
+
+			View *v = nullptr;
+
+			Props props = parseProps(it);
+			if (_factory.count(it->name())) {
+				v = _factory[it->name()]();
+				v->constructor(props);
+			}
+			else
+				throw std::domain_error("Wrong tag name");
+			v->mustBeCleaned();
+			if (currentView == nullptr) {
+				currentView = v;
+			}
+			else {
+				currentView->addChild(*v);
+			}
+
+		    evaluateString(*it, level + 1, v);
+		}
+		return currentView;
+	}
+
 	void Dom::parseFromFile(const std::string &path) {
 		bool wasDisabled = !_autoSet;
 

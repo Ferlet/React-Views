@@ -1,6 +1,8 @@
  
 #pragma once
 
+#include <fstream>
+
 #include "../xmlLib/pugixml.hpp"
 #include "../View/View.hpp"
 #include "../ImageView/ImageView.hpp"
@@ -44,6 +46,11 @@ namespace ReactViews {
 		void checkEvents();
 
 		void render();
+
+		//parsing
+		View *parseFromString(std::string &str);
+		View *evaluateString(pugi::xml_node &node, unsigned int level = 0, View *currentView = nullptr);
+
 
 		void parseFromFile(const std::string &path);
 		void endParsingAndThrow(bool wasDisabled, std::exception except);
