@@ -3,7 +3,9 @@
 
 namespace ReactViews {
 
-	ImageView::ImageView(Props props) : View(props) {
+	void ImageView::constructor(Props props) {
+		View::constructor(props);
+
 		setRenderFunction([this](View &view){
 			(void)view;
 			if (_hasImage) draw(_sprite);

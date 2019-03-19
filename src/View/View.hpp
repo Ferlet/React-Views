@@ -24,13 +24,13 @@ namespace ReactViews {
 
 	class View {
 	public:
-		View() {View(std::map<std::string, std::string>());};
-		View(Props props);
-		~View() = default;
+		View() = default;
+		virtual ~View() = default;
 		bool treeDelete();
 
 		//must be overridden
-		static View *newInstance(Props props) { return (new View(props)); };
+		static View *newInstance() { return (new View()); };
+		virtual void constructor(Props props);
 
 		//used by the Dom class
 		void mustBeCleaned() { _mustBeCleaned = true; };

@@ -4,8 +4,17 @@
 
 namespace ReactViews {
 
-	View::View(Props props) {
-		(void) props;
+	bool View::treeDelete() {
+		for (View &v : getChilds()) {
+			if (v.treeDelete())
+				delete(std::addressof(v));
+		}
+		if (_mustBeCleaned)
+			return true;
+		return false;
+	}
+
+	void View::constructor(Props props) {
 
 		_mustBeCleaned = false;
 
@@ -44,16 +53,6 @@ namespace ReactViews {
 		}
 
 		state = json::makeObject({});
-	}
-
-	bool View::treeDelete() {
-		for (View &v : getChilds()) {
-			if (v.treeDelete())
-				delete(std::addressof(v));
-		}
-		if (_mustBeCleaned)
-			return true;
-		return false;
 	}
 
 	void View::setId(const std::string &id) {

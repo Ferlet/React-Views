@@ -102,8 +102,10 @@ namespace ReactViews {
 			View *v = nullptr;
 
 			Props props = parseProps(it);
-			if (_factory.count(it->name()))
-				v = _factory[it->name()](props);
+			if (_factory.count(it->name())) {
+				v = _factory[it->name()]();
+				v->constructor(props);
+			}
 			else
 				throw std::domain_error("Wrong tag name");
 			v->mustBeCleaned();

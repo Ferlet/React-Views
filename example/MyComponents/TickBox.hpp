@@ -5,11 +5,13 @@
 
 class TickBox : public ReactViews::View {
 	public:
-		TickBox(ReactViews::Props props);
+		TickBox() = default;
 		~TickBox() = default;
 
+		void constructor(ReactViews::Props props) override;
+
 		//needed
-		static TickBox *newInstance(ReactViews::Props props) { return (new TickBox(props)); };
+		static TickBox *newInstance() { return (new TickBox()); };
 
 	protected:
 		void loadFromFile(const std::string path);

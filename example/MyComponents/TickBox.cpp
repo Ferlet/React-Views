@@ -1,7 +1,8 @@
 
 #include "TickBox.hpp"
 
-TickBox::TickBox(ReactViews::Props props) : ReactViews::View(props) {
+void TickBox::constructor(ReactViews::Props props) {
+	ReactViews::View::constructor(props);
 
 	if (props.count("src")) loadFromFile(props["src"]);
 

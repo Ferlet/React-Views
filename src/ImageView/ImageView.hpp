@@ -7,11 +7,12 @@ namespace ReactViews {
 
 	class ImageView : public View {
 	public:
-		ImageView() {ImageView(std::map<std::string, std::string>());};
-		ImageView(Props props);
+		ImageView() = default;
 		~ImageView() = default;
 
-		static ImageView *newInstance(Props props) { return (new ImageView(props)); };
+		void constructor(Props props) override;
+
+		static ImageView *newInstance() { return (new ImageView()); };
 
 		void loadFromFile(const std::string path);
 	protected:

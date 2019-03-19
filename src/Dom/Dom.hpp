@@ -19,7 +19,7 @@ namespace ReactViews {
 			return instance;
 		}
 
-		void registerComponent(const std::string &name, std::function<View *(Props props)> f) {
+		void registerComponent(const std::string &name, std::function<View *()> f) {
 			_factory[name] = std::move(f);
 		};
 
@@ -74,7 +74,7 @@ namespace ReactViews {
 		bool _autoSet;
 
 
-		std::map<std::string, std::function<View *(Props props)>> _factory;
+		std::map<std::string, std::function<View *()>> _factory;
 	};
 
 	#define DOM (ReactViews::Dom::getInstance())
