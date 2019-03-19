@@ -13,6 +13,8 @@ class TickBox : public ReactViews::View {
 		//needed
 		static TickBox *newInstance() { return (new TickBox()); };
 
+		void newProps(ReactViews::Props props);
+
 	protected:
 		void loadFromFile(const std::string path);
 

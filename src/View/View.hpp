@@ -77,6 +77,8 @@ namespace ReactViews {
 		void setRenderFunction(std::function<void(View &)> func);
 		void clearRenderFunction();
 		void render();
+		virtual View *componentRender();
+		virtual void updateRender();
 
 		//Getters
 		std::string getId() const { return _id; };
@@ -103,6 +105,10 @@ namespace ReactViews {
 		//state
 		json::Entity state;
 		void setState(json::Entity ent);
+
+		//props
+		Props props;
+		virtual void newProps(Props props);
 
 	protected:
 
@@ -134,6 +140,8 @@ namespace ReactViews {
 		std::map<std::string, std::function<void(View &)>> _eventMap;
 		std::function<void(View &)> _renderFunction;
 		bool _hasRenderFunction;
+
+		bool _mustUpdate;
 	};
 
 }

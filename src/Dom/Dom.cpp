@@ -71,8 +71,9 @@ namespace ReactViews {
 		try {
 			pugi::xml_document doc;
 			pugi::xml_parse_result result = doc.load_file(path.c_str());
-			if (!result)
+			if (!result) {
 				endParsingAndThrow(wasDisabled, std::domain_error("XML syntax error"));
+			}
 			evaluateDocument(doc);
 		} catch (std::exception &except) {
 			endParsingAndThrow(wasDisabled, except);

@@ -42,17 +42,11 @@ namespace ReactViews {
 		if (!DOM.isInit() && DOM.hasAutoSet())
 			DOM.setMainView(*this);
 
-		if (props.count("id")) setId(props["id"]);
-		if (props.count("flex")) setFlex(std::stod(props["flex"]));
-		if (props.count("flexDirection")) setFlexDirection(props["flexDirection"] == "column" ? COLUMN : ROW);
-		if (props.count("visible")) setVisible((props["visible"] == "true" || props["visible"] == "1") ? true : false);
-		if (props.count("backgroundColor")) {
-			unsigned int x = std::stoul(props["backgroundColor"], nullptr, 16);
-
-			setBackgroundColor(sf::Color(x));
-		}
-
 		state = json::makeObject({});
+
+		newProps(props);
+
+		_mustUpdate = true;
 	}
 
 	void View::setId(const std::string &id) {
@@ -317,12 +311,37 @@ namespace ReactViews {
 		}
 	}
 
+	View *View::componentRender() {
+		return nullptr;
+	}
+
+	void View::updateRender() {
+		render();
+	}
+
 	void View::setState(json::Entity ent) {
 		auto &mapped = const_cast<json::Object&>(ent.constGetData<json::Object>()).get();
 
 		for (auto kv : mapped) {
+			if (state[kv.first] != kv.second) _mustUpdate = true;
 			state[kv.first] = kv.second;
 		}
+	}
+
+	void View::newProps(Props props) {
+		this->props = props;
+
+		if (props.count("id")) setId(props["id"]);
+		if (props.count("flex")) setFlex(std::stod(props["flex"]));
+		if (props.count("flexDirection")) setFlexDirection(props["flexDirection"] == "column" ? COLUMN : ROW);
+		if (props.count("visible")) setVisible((props["visible"] == "true" || props["visible"] == "1") ? true : false);
+		if (props.count("backgroundColor")) {
+			unsigned int x = std::stoul(props["backgroundColor"], nullptr, 16);
+
+			setBackgroundColor(sf::Color(x));
+		}
+
+		_mustUpdate = true;
 	}
 
 	void View::setParent(View &view) {

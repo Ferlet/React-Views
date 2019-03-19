@@ -4,8 +4,6 @@
 void TickBox::constructor(ReactViews::Props props) {
 	ReactViews::View::constructor(props);
 
-	if (props.count("src")) loadFromFile(props["src"]);
-
 	setEvent("onLeftClick", [this](ReactViews::View &view){
 		(void)view;
 		if (this->state["displayed"].to<bool>()) {clearRenderFunction();}
@@ -18,6 +16,12 @@ void TickBox::constructor(ReactViews::Props props) {
 		 	{"displayed", !this->state["displayed"].to<bool>()}
 		});
 	});
+}
+
+void TickBox::newProps(ReactViews::Props props) {
+	View::newProps(props);
+
+	if (props.count("src")) loadFromFile(props["src"]);
 }
 
 void TickBox::loadFromFile(const std::string path) {

@@ -15,6 +15,8 @@ namespace ReactViews {
 		static ImageView *newInstance() { return (new ImageView()); };
 
 		void loadFromFile(const std::string path);
+
+		void newProps(Props props);
 	protected:
 		sf::Texture _texture;
 		sf::Sprite _sprite;
