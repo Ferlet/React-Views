@@ -39,6 +39,7 @@ namespace ReactViews {
 		void setId(const std::string &id);
 		View &findViewById(const std::string &id);
 		bool isAvailableId(const std::string &id);
+		View &findViewBySelector(const std::string &select);
 
 		//Pure flexbox
 		void setFlex(const double &flex);
@@ -80,9 +81,10 @@ namespace ReactViews {
 
 		//Lifecycle
 		virtual void componentDidMount();
+		virtual void componentDidUpdate();
 		virtual View *componentRender();
 		virtual void updateRender();
-		virtual void componentDidUpdate();
+		void forceUpdate() { _mustUpdate = true; };
 
 		//Getters
 		std::string getId() const { return _id; };
@@ -112,7 +114,7 @@ namespace ReactViews {
 
 		//props
 		Props props;
-		virtual void newProps(Props props);
+		virtual void newProps(Props props, bool first = false);
 
 		bool _mustUpdate;
 		bool _didRender;

@@ -4,8 +4,6 @@
 
 class Bar : public ReactViews::View {
 	public:
-		Bar() = default;
-		~Bar() = default;
 
 		//needed
 		static Bar *newInstance() { return (new Bar()); };

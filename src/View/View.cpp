@@ -45,9 +45,8 @@ namespace ReactViews {
 
 		state = json::makeObject({});
 
-		newProps(props);
+		newProps(props, true);
 
-		_mustUpdate = true;
 		_didRender = false;
 	}
 
@@ -90,6 +89,21 @@ namespace ReactViews {
 		}
 
 		return true;
+	}
+
+	View &View::findViewBySelector(const std::string &select) {
+		if (select == "")
+			throw std::invalid_argument("Empty strings aren't valid");
+
+		if (this->props.count("select") && select == this->props["select"])
+			return *this;
+		for (View &v : getChilds()) {
+			try {
+				return v.findViewBySelector(select);
+			} catch (...) {};
+		}
+
+		throw std::invalid_argument(std::string("Selector not found: ") + select);
 	}
 
 	void View::setFlex(const double &flex) {
@@ -338,7 +352,7 @@ namespace ReactViews {
 		}
 	}
 
-	void View::newProps(Props props) {
+	void View::newProps(Props props, bool first) {
 		this->props = props;
 
 		if (props.count("id")) setId(props["id"]);
@@ -351,7 +365,7 @@ namespace ReactViews {
 			setBackgroundColor(sf::Color(x));
 		}
 
-		_mustUpdate = true;
+		if (!first) _mustUpdate = true;
 	}
 
 	void View::setParent(View &view) {

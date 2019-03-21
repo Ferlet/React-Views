@@ -1,11 +1,28 @@
 
 <View flexDirection="column" backgroundColor="aaaaaaff">
-	<View flex="0.80"/>
-	<View flex="0.16">
-		<Carret flex="0.1" dir="left"/>
-		<View flex="0.8">
-			<Bar id="bar"/>
-		</View>
-		<Carret flex="0.1" dir="right"/>
+	<View/>
+	<View flex="0.2">
+		<View flex="0.05"/>
+		<Panel src="./ressources/ok_hand.png"/>
+		<View flex="0.05"/>
+		<Panel/>
+		<View flex="0.05"/>
 	</View>
+	<View/>
+	<View flex="0.2">
+		<View flex="0.05"/>
+		<Panel/>
+		<View flex="0.05"/>
+		<Panel/>
+		<View flex="0.05"/>
+	</View>
+	<View/>
+	<View flex="0.2">
+		<View flex="0.05"/>
+		<Panel/>
+		<View flex="0.05"/>
+		<Panel/>
+		<View flex="0.05"/>
+	</View>
+	<View/>
 </View>

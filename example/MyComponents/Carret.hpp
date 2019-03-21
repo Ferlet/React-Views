@@ -4,8 +4,6 @@
 
 class Carret : public ReactViews::View {
 	public:
-		Carret() = default;
-		~Carret() = default;
 
 		//needed
 		static Carret *newInstance() { return (new Carret()); };
